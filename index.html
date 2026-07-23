@@ -1899,6 +1899,7 @@
        TOAST
     ================================================================ */
     #toast {
+      display: none;
       position: fixed;
       bottom: calc(72px + env(safe-area-inset-bottom, 0px));
       left: 50%;
@@ -3006,13 +3007,19 @@
     /* ─── UTILITIES ─────────────────────────────────────────────── */
     const el = id => document.getElementById(id);
 
-    let toastTimer;
-    function toast(msg, type = '', dur = 3000) {
+    let toastTimer, toastHideTimer;
+    function toast(msg, type = '', dur = 1800) {
       const t = el('toast');
+      clearTimeout(toastTimer);
+      clearTimeout(toastHideTimer);
+      t.style.display = 'flex';
+      void t.offsetWidth; // force reflow so the show animation replays
       t.textContent = msg;
       t.className = 'show ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.remove('show'), dur);
+      toastTimer = setTimeout(() => {
+        t.classList.remove('show');
+        toastHideTimer = setTimeout(() => { t.style.display = 'none'; }, 300);
+      }, dur);
     }
 
     function showLoading(on) { el('loading').classList.toggle('show', on); }
