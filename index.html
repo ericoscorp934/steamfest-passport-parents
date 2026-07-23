@@ -1902,7 +1902,9 @@
       position: fixed;
       bottom: calc(72px + env(safe-area-inset-bottom, 0px));
       left: 50%;
-      transform: translateX(-50%) translateY(80px);
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      visibility: hidden;
       background: var(--navy);
       border: 1px solid rgba(244, 162, 38, .25);
       border-radius: var(--r-full);
@@ -1910,7 +1912,7 @@
       font-size: .86rem;
       color: var(--text-light);
       z-index: 9000;
-      transition: transform .3s cubic-bezier(.34, 1.3, .64, 1);
+      transition: transform .3s cubic-bezier(.34, 1.3, .64, 1), opacity .3s ease, visibility 0s linear .3s;
       white-space: nowrap;
       max-width: 90vw;
       overflow: hidden;
@@ -1920,6 +1922,9 @@
 
     #toast.show {
       transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+      transition: transform .3s cubic-bezier(.34, 1.3, .64, 1), opacity .3s ease, visibility 0s linear 0s;
     }
 
     #toast.ok {
@@ -3252,7 +3257,7 @@
       try {
         await loadVisitorData();
         renderDashboard();
-        toast('Passport refreshed ✓', 'ok');
+        toast('Passport refreshed ✓', 'ok', 1800);
       } catch (err) {
         toast('Refresh failed — check connection', 'err');
       } finally {
