@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#0B1C3D"/>
+  <!-- Passport book shape -->
+  <rect x="136" y="96" width="240" height="320" rx="16" fill="#122548" stroke="#F4A226" stroke-width="8"/>
+  <!-- Spine -->
+  <rect x="136" y="96" width="28" height="320" rx="12" fill="#0B1C3D"/>
+  <!-- Amber badge -->
+  <circle cx="264" cy="220" r="64" fill="#F4A226"/>
+  <!-- Star in badge -->
+  <path d="M264 168 l14 42h44l-36 26 14 42-36-26-36 26 14-42-36-26h44z" fill="#0B1C3D"/>
+  <!-- "(Parents)" text lines -->
+  <rect x="192" y="308" width="144" height="10" rx="5" fill="#F4A226" opacity="0.7"/>
+  <rect x="212" y="328" width="104" height="8" rx="4" fill="#F7BA5A" opacity="0.5"/>
+  <!-- Hairline accents -->
+  <line x1="164" y1="130" x2="376" y2="130" stroke="#E8B84B" stroke-width="1" opacity="0.6"/>
+  <line x1="164" y1="382" x2="376" y2="382" stroke="#E8B84B" stroke-width="1" opacity="0.6"/>
+</svg>

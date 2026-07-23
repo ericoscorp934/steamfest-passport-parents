@@ -1,0 +1,4290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>STEAMFest Passport 2026 (Parents)</title>
+  <meta name="description"
+    content="Your digital passport for STEAMFest 2026 — parents track. Complete all booths each week to earn chops!" />
+  <meta name="theme-color" content="#0B1C3D" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="STEAMPass P" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ================================================================
+       DESIGN TOKENS — Navy / Amber / White
+    ================================================================ */
+    :root {
+      --navy-deep: #0B1C3D;
+      --navy: #122548;
+      --navy-mid: #1a3460;
+      --navy-light: #243d72;
+      --amber: #F4A226;
+      --amber-light: #F7BA5A;
+      --amber-bright: #FBCD7A;
+      --amber-dim: rgba(244, 162, 38, 0.18);
+      --gold-hair: #E8B84B;
+      --white: #ffffff;
+      --slate: #f7f8fb;
+      --slate-mid: #eef0f6;
+      --text-dark: #1a2740;
+      --text-muted: #6b7a96;
+      --text-light: rgba(255, 255, 255, 0.85);
+      --text-dimmed: rgba(255, 255, 255, 0.5);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --font-head: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+      --r-full: 9999px;
+
+      --sh-sm: 0 2px 8px rgba(0, 0, 0, .12);
+      --sh-md: 0 6px 24px rgba(0, 0, 0, .14);
+      --sh-lg: 0 12px 48px rgba(0, 0, 0, .18);
+      --sh-amber: 0 0 24px rgba(244, 162, 38, .35);
+
+      --header-h: 64px;
+    }
+
+    /* ================================================================
+       RESET + BASE
+    ================================================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100%;
+      font-family: var(--font-body);
+      background: var(--slate);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: var(--font-body);
+    }
+
+    img,
+    canvas {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ================================================================
+       SCREEN SYSTEM
+    ================================================================ */
+    .screen {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: none;
+      animation: fadeIn .25s ease;
+      background: var(--slate);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* Dark screens (guide scanner, PIN screens) */
+    .screen.dark-screen {
+      background: var(--navy-deep);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .screen-inner {
+      min-height: 100%;
+      padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 24px);
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ================================================================
+       NAVY HEADER BAND (with gold hairline accents)
+    ================================================================ */
+    .app-header {
+      background: var(--navy-deep);
+      padding: env(safe-area-inset-top, 0px) 20px 0;
+      position: relative;
+    }
+
+    .app-header::before {
+      content: '';
+      position: absolute;
+      top: env(safe-area-inset-top, 0px);
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-hair), transparent);
+    }
+
+    .app-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-hair), transparent);
+    }
+
+    .app-header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--header-h);
+    }
+
+    .app-header-title {
+      font-family: var(--font-head);
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: .02em;
+    }
+
+    .app-header-sub {
+      font-size: .68rem;
+      color: var(--amber-light);
+      font-family: var(--font-head);
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .header-btn {
+      background: transparent;
+      border: 1.5px solid rgba(244, 162, 38, .3);
+      color: var(--text-light);
+      border-radius: var(--r-sm);
+      padding: 7px 14px;
+      font-family: var(--font-head);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .header-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .header-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: var(--r-sm);
+      transition: .18s;
+    }
+
+    .header-icon-btn:hover {
+      background: rgba(255, 255, 255, .08);
+    }
+
+    /* ================================================================
+       TYPOGRAPHY
+    ================================================================ */
+    h1 {
+      font-family: var(--font-head);
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-weight: 700;
+    }
+
+    h3 {
+      font-family: var(--font-head);
+      font-weight: 600;
+    }
+
+    .label {
+      font-size: .7rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .label-dark {
+      font-size: .7rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: .88rem;
+    }
+
+    .muted-light {
+      color: var(--text-dimmed);
+      font-size: .88rem;
+    }
+
+    /* ================================================================
+       CARDS
+    ================================================================ */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--slate-mid);
+      border-radius: var(--r-lg);
+      padding: 20px 18px;
+      box-shadow: var(--sh-sm);
+    }
+
+    .card-amber {
+      border-color: rgba(244, 162, 38, .35);
+      box-shadow: var(--sh-amber), var(--sh-sm);
+    }
+
+    .card-navy {
+      background: var(--navy);
+      border-color: rgba(244, 162, 38, .2);
+      color: var(--text-light);
+    }
+
+    /* ================================================================
+       BUTTONS
+    ================================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border: none;
+      border-radius: var(--r-full);
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--amber) 0%, var(--amber-light) 100%);
+      color: var(--navy-deep);
+      box-shadow: 0 4px 16px rgba(244, 162, 38, .38);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(244, 162, 38, .52);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: .45;
+      pointer-events: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--slate-mid);
+      color: var(--text-dark);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 1.5px solid rgba(244, 162, 38, .3);
+      color: var(--text-light);
+    }
+
+    .btn-outline-light:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(34, 197, 94, .35);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(34, 197, 94, .48);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, .1);
+      border: 1.5px solid rgba(239, 68, 68, .35);
+      color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, .18);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 12px;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text-dark);
+    }
+
+    .btn-ghost-light {
+      background: transparent;
+      border: none;
+      color: var(--text-dimmed);
+      padding: 8px 12px;
+    }
+
+    .btn-ghost-light:hover {
+      color: var(--text-light);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: .8rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-icon {
+      padding: 10px;
+      border-radius: var(--r-sm);
+      min-width: 40px;
+      min-height: 40px;
+    }
+
+    /* ================================================================
+       FORMS
+    ================================================================ */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-family: var(--font-head);
+    }
+
+    .form-control {
+      background: var(--slate);
+      border: 1.5px solid var(--slate-mid);
+      border-radius: var(--r-md);
+      color: var(--text-dark);
+      font-size: .95rem;
+      padding: 12px 15px;
+      width: 100%;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--amber);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-muted);
+    }
+
+    select.form-control option {
+      background: var(--white);
+      color: var(--text-dark);
+    }
+
+    /* Dark form variant (for PIN screens) */
+    .form-control-dark {
+      background: rgba(255, 255, 255, .07);
+      border: 1.5px solid rgba(244, 162, 38, .2);
+      color: var(--text-light);
+    }
+
+    .form-control-dark:focus {
+      border-color: var(--amber);
+    }
+
+    .form-control-dark::placeholder {
+      color: var(--text-dimmed);
+    }
+
+    .form-hint {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .form-error {
+      font-size: .78rem;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-error.show {
+      display: block;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .form-actions .btn {
+      flex: 1;
+    }
+
+    /* Toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--slate-mid);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .3s;
+      box-shadow: var(--sh-sm);
+    }
+
+    .toggle-switch input:checked+.toggle-slider {
+      background: var(--amber);
+    }
+
+    .toggle-switch input:checked+.toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    /* ================================================================
+       PIN PAD  (dark themed — used on dark screens)
+    ================================================================ */
+    .pin-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      padding: 20px 0;
+    }
+
+    .pin-dots {
+      display: flex;
+      gap: 14px;
+    }
+
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(244, 162, 38, .45);
+      background: transparent;
+      transition: all .15s ease;
+    }
+
+    .pin-dot.filled {
+      background: var(--amber);
+      border-color: var(--amber);
+      box-shadow: 0 0 8px rgba(244, 162, 38, .55);
+    }
+
+    .pin-dot.error {
+      border-color: var(--danger);
+      background: var(--danger);
+    }
+
+    .pin-keys {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .pin-key {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(244, 162, 38, .15);
+      border-radius: var(--r-md);
+      color: var(--text-light);
+      font-family: var(--font-head);
+      font-size: 1.35rem;
+      font-weight: 500;
+      height: 64px;
+      cursor: pointer;
+      transition: all .12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pin-key:active {
+      transform: scale(.93);
+      background: rgba(244, 162, 38, .12);
+    }
+
+    .pin-key::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, .15) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity .1s;
+    }
+
+    .pin-key:active::after {
+      opacity: 1;
+    }
+
+    .pin-key-del {
+      color: var(--text-dimmed);
+      font-size: 1rem;
+    }
+
+    .pin-key-blank {
+      background: transparent;
+      border: none;
+      pointer-events: none;
+    }
+
+    .pin-error-msg {
+      color: var(--danger);
+      font-size: .82rem;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    /* ================================================================
+       SPLASH SCREEN
+    ================================================================ */
+    #splash {
+      background: var(--navy-deep);
+    }
+
+    .splash-inner {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .splash-logo {
+      font-size: 4rem;
+      filter: drop-shadow(0 0 20px rgba(244, 162, 38, .65));
+      animation: pulse-logo 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-logo {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .splash-title {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.1;
+      color: var(--text-light);
+    }
+
+    .splash-title span {
+      background: linear-gradient(135deg, var(--amber) 0%, var(--amber-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .splash-sub {
+      color: var(--text-dimmed);
+      font-size: .9rem;
+      text-align: center;
+    }
+
+    .splash-loader {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(244, 162, 38, .2);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ================================================================
+       HOME SCREEN
+    ================================================================ */
+    .home-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 12px;
+    }
+
+    .home-hero {
+      text-align: center;
+      padding: 32px 0 24px;
+    }
+
+    .home-emblem {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border: 2.5px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.6rem;
+      margin: 0 auto 16px;
+      box-shadow: var(--sh-amber), var(--sh-md);
+    }
+
+    .home-title {
+      font-family: var(--font-head);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .home-title em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .home-subtitle {
+      color: var(--text-muted);
+      font-size: .9rem;
+      line-height: 1.55;
+    }
+
+    .staff-link-row {
+      text-align: center;
+      margin-top: auto;
+      padding: 24px 0 8px;
+    }
+
+    .staff-link {
+      color: var(--text-muted);
+      font-size: .78rem;
+      border-bottom: 1px solid var(--slate-mid);
+      padding-bottom: 2px;
+      transition: .2s;
+    }
+
+    .staff-link:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
+
+    /* ================================================================
+       VISITOR DASHBOARD
+    ================================================================ */
+    .visitor-header {
+      background: var(--navy-deep);
+      position: relative;
+    }
+
+    .visitor-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-hair), transparent);
+    }
+
+    .visitor-header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 20px 0;
+      height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+    }
+
+    .visitor-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visitor-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--amber-dim);
+      border: 2px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: var(--font-head);
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .visitor-name-hdr {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text-light);
+    }
+
+    .visitor-week-hdr {
+      font-size: .72rem;
+      color: var(--amber-light);
+    }
+
+    /* Dashboard body */
+    .dash-body {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px calc(32px + env(safe-area-inset-bottom, 0px));
+      width: 100%;
+    }
+
+    /* QR card */
+    .qr-card {
+      text-align: center;
+    }
+
+    .qr-canvas-wrap {
+      display: inline-block;
+      background: var(--white);
+      border-radius: var(--r-md);
+      padding: 12px;
+      cursor: pointer;
+      transition: transform .2s;
+      box-shadow: var(--sh-md);
+      border: 1px solid var(--slate-mid);
+    }
+
+    .qr-canvas-wrap:hover {
+      transform: scale(1.02);
+    }
+
+    .qr-label {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Chop count */
+    .chop-stat-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .chop-icon-big {
+      font-size: 2.4rem;
+      filter: drop-shadow(0 0 8px rgba(244, 162, 38, .5));
+    }
+
+    .chop-count {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .chop-label {
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Progress bar */
+    .progress-bar-track {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--slate-mid);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--amber) 0%, var(--amber-bright) 100%);
+      transition: width .6s cubic-bezier(.34, 1.56, .64, 1);
+      box-shadow: 0 0 8px rgba(244, 162, 38, .45);
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: .7rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* ================================================================
+       PUNCH-CARD GRID (16 cells)
+    ================================================================ */
+    .punch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .punch-cell {
+      background: var(--white);
+      border: 1.5px solid var(--slate-mid);
+      border-radius: var(--r-md);
+      padding: 8px 4px 7px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all .2s;
+      min-height: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .punch-cell:hover {
+      border-color: rgba(244, 162, 38, .4);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-sm);
+    }
+
+    .punch-week-num {
+      font-size: .58rem;
+      font-family: var(--font-head);
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .punch-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .punch-micro {
+      font-size: .54rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+      margin-top: 1px;
+    }
+
+    /* States */
+    .punch-cell.earned {
+      background: linear-gradient(135deg, rgba(244, 162, 38, .1) 0%, var(--white) 100%);
+      border-color: var(--amber);
+      box-shadow: 0 0 0 1px rgba(244, 162, 38, .2), var(--sh-sm);
+    }
+
+    .punch-cell.earned .punch-week-num {
+      color: var(--amber);
+    }
+
+    .punch-cell.earned .punch-micro {
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .punch-cell.current {
+      border-color: var(--amber-light);
+      box-shadow: 0 0 0 1.5px rgba(244, 162, 38, .25), var(--sh-sm);
+    }
+
+    .punch-cell.future {
+      opacity: .38;
+      pointer-events: none;
+    }
+
+    .punch-cell.placeholder {
+      opacity: .22;
+      pointer-events: none;
+    }
+
+    .punch-chop-mark {
+      font-size: 1.3rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 5px rgba(244, 162, 38, .7));
+      animation: chop-mark-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes chop-mark-glow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 5px rgba(244, 162, 38, .7));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 10px rgba(247, 186, 90, 1));
+      }
+    }
+
+    .live-pip {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 5px var(--success);
+      animation: pip-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pip-pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.45);
+      }
+    }
+
+    .chop-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--r-md);
+      border: 2px solid var(--amber);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s;
+    }
+
+    .punch-cell.earned .chop-ring {
+      opacity: 1;
+    }
+
+    /* ================================================================
+       WEEK DETAIL MODAL (slide-up sheet)
+    ================================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(11, 28, 61, .6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-sheet {
+      background: var(--white);
+      border: 1px solid var(--slate-mid);
+      border-bottom: none;
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 env(safe-area-inset-bottom, 20px);
+      transform: translateY(100%);
+      transition: transform .32s cubic-bezier(.34, 1.1, .64, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--slate-mid);
+      margin: 12px auto 0;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px 10px;
+      border-bottom: 1px solid var(--slate-mid);
+    }
+
+    .modal-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .modal-body {
+      padding: 16px 20px 24px;
+    }
+
+    /* Booth dots in modal */
+    .booth-dots-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .booth-dot-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 0 0 calc(20% - 8px);
+      min-width: 52px;
+    }
+
+    .booth-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px dashed rgba(244, 162, 38, .35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      transition: all .2s;
+    }
+
+    .booth-dot-item.done .booth-dot {
+      background: var(--amber);
+      border: 2px solid var(--amber);
+      border-style: solid;
+      box-shadow: 0 0 12px rgba(244, 162, 38, .5);
+    }
+
+    .booth-dot-check {
+      color: var(--navy-deep);
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .booth-dot-label {
+      font-size: .58rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.3;
+      max-width: 52px;
+    }
+
+    .booth-dot-item.done .booth-dot-label {
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .booth-threshold-msg {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(244, 162, 38, .3);
+      border-radius: var(--r-md);
+      padding: 11px 13px;
+      margin-top: 14px;
+      font-size: .82rem;
+      line-height: 1.4;
+      color: var(--text-dark);
+    }
+
+    /* ================================================================
+       STAFF LOGIN / ROLE CARDS
+    ================================================================ */
+    .role-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .role-card {
+      background: rgba(255, 255, 255, .05);
+      border: 1.5px solid rgba(244, 162, 38, .18);
+      border-radius: var(--r-lg);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: left;
+    }
+
+    .role-card:hover {
+      border-color: var(--amber);
+      transform: translateX(4px);
+      box-shadow: var(--sh-amber);
+    }
+
+    .role-card-icon {
+      font-size: 1.8rem;
+      width: 50px;
+      height: 50px;
+      border-radius: var(--r-md);
+      background: rgba(244, 162, 38, .12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .role-card-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .role-card-desc {
+      font-size: .78rem;
+      color: var(--text-dimmed);
+      margin-top: 3px;
+    }
+
+    /* ================================================================
+       PIN SCREENS
+    ================================================================ */
+    .pin-screen-header {
+      text-align: center;
+      padding: 30px 0 18px;
+    }
+
+    .pin-screen-icon {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+    }
+
+    .pin-screen-title {
+      font-family: var(--font-head);
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+
+    .pin-screen-sub {
+      color: var(--text-dimmed);
+      font-size: .86rem;
+    }
+
+    .btn-back-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-dimmed);
+      font-size: .86rem;
+      cursor: pointer;
+      padding: 6px 0;
+      font-family: var(--font-body);
+      transition: .2s;
+    }
+
+    .btn-back-light:hover {
+      color: var(--text-light);
+    }
+
+    /* ================================================================
+       GUIDE / REDEMPTION SCANNER SCREEN
+    ================================================================ */
+    #guide-scan .screen-inner,
+    #redemption-scan .screen-inner {
+      padding: 0;
+      max-width: 100%;
+    }
+
+    .scanner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 16px) 20px 14px;
+      background: var(--navy-deep);
+      border-bottom: 1px solid rgba(244, 162, 38, .15);
+      position: relative;
+    }
+
+    .scanner-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-hair), transparent);
+    }
+
+    .scanner-booth-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(244, 162, 38, .35);
+      border-radius: var(--r-full);
+      padding: 3px 10px;
+      font-size: .68rem;
+      color: var(--amber);
+      font-family: var(--font-head);
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .scanner-booth-name {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .scanner-booth-sub {
+      font-size: .78rem;
+      color: var(--text-dimmed);
+    }
+
+    .scanner-wrap {
+      position: relative;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #qr-reader,
+    #qr-reader-redemption {
+      width: 100%;
+      min-height: 300px;
+    }
+
+    #qr-reader video,
+    #qr-reader-redemption video {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: cover;
+    }
+
+    .scanner-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .scan-reticle {
+      width: 220px;
+      height: 220px;
+      position: relative;
+    }
+
+    .reticle-corner {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-color: var(--amber);
+      border-style: solid;
+    }
+
+    .reticle-corner.tl {
+      top: 0;
+      left: 0;
+      border-width: 3px 0 0 3px;
+      border-radius: 6px 0 0 0;
+    }
+
+    .reticle-corner.tr {
+      top: 0;
+      right: 0;
+      border-width: 3px 3px 0 0;
+      border-radius: 0 6px 0 0;
+    }
+
+    .reticle-corner.bl {
+      bottom: 0;
+      left: 0;
+      border-width: 0 0 3px 3px;
+      border-radius: 0 0 0 6px;
+    }
+
+    .reticle-corner.br {
+      bottom: 0;
+      right: 0;
+      border-width: 0 3px 3px 0;
+      border-radius: 0 0 6px 0;
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      animation: scan-sweep 2.2s ease-in-out infinite;
+    }
+
+    @keyframes scan-sweep {
+
+      0%,
+      100% {
+        top: 5%;
+        opacity: 0;
+      }
+
+      10%,
+      90% {
+        opacity: 1;
+      }
+
+      50% {
+        top: 90%;
+      }
+    }
+
+    .scanner-hint {
+      text-align: center;
+      padding: 14px 20px;
+      color: var(--text-dimmed);
+      font-size: .83rem;
+      background: var(--navy-deep);
+    }
+
+    /* Scan result overlay */
+    .scan-result {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      background: rgba(11, 28, 61, .97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .scan-result.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .scan-result-icon {
+      font-size: 4rem;
+      animation: icon-pop .38s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes icon-pop {
+      0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+      }
+    }
+
+    .scan-result-title {
+      font-family: var(--font-head);
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-light);
+    }
+
+    .scan-result-sub {
+      color: var(--text-dimmed);
+      font-size: .88rem;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    .scan-result.ok .scan-result-title {
+      color: var(--success);
+    }
+
+    .scan-result.chop .scan-result-title {
+      color: var(--amber);
+    }
+
+    .scan-result.dupe .scan-result-title {
+      color: var(--warning);
+    }
+
+    .scan-result.err .scan-result-title {
+      color: var(--danger);
+    }
+
+    .cam-error {
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-dimmed);
+      background: var(--navy-deep);
+    }
+
+    /* ================================================================
+       REDEMPTION STATE DISPLAY
+    ================================================================ */
+    .redemption-result {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      background: rgba(11, 28, 61, .98);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .redemption-result.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .redemption-state-icon {
+      font-size: 3.5rem;
+      animation: icon-pop .38s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .redemption-visitor-name {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .redemption-status-label {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .redemption-status-label.not-eligible {
+      color: var(--warning);
+    }
+
+    .redemption-status-label.eligible {
+      color: var(--success);
+    }
+
+    .redemption-status-label.redeemed {
+      color: var(--text-muted);
+    }
+
+    .redemption-detail {
+      color: var(--text-dimmed);
+      font-size: .84rem;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    /* ================================================================
+       ADMIN DASHBOARD
+    ================================================================ */
+    #admin-dash {
+      background: var(--slate);
+    }
+
+    .admin-header {
+      background: var(--navy-deep);
+      position: relative;
+    }
+
+    .admin-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-hair), transparent);
+    }
+
+    .admin-header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 20px 0;
+      height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+    }
+
+    .admin-body {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px calc(32px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-tile {
+      background: var(--white);
+      border: 1px solid var(--slate-mid);
+      border-radius: var(--r-md);
+      padding: 14px;
+      box-shadow: var(--sh-sm);
+    }
+
+    .stat-val {
+      font-family: var(--font-head);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .admin-tabs {
+      display: flex;
+      border-bottom: 1.5px solid var(--slate-mid);
+      margin-bottom: 16px;
+      overflow-x: auto;
+      gap: 2px;
+    }
+
+    .admin-tab {
+      flex-shrink: 0;
+      padding: 9px 12px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-head);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .2s;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1.5px;
+      white-space: nowrap;
+    }
+
+    .admin-tab.active {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: .7rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--slate-mid);
+    }
+
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--slate-mid);
+      vertical-align: middle;
+      color: var(--text-dark);
+    }
+
+    tr:hover td {
+      background: rgba(244, 162, 38, .03);
+    }
+
+    .pin-code {
+      font-family: monospace;
+      font-size: .92rem;
+      letter-spacing: .12em;
+      color: var(--amber);
+      background: var(--amber-dim);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .status-dot.active {
+      background: var(--success);
+    }
+
+    .status-dot.inactive {
+      background: var(--slate-mid);
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      opacity: .5;
+    }
+
+    /* ================================================================
+       DRAWER (slide-up form panel)
+    ================================================================ */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(11, 28, 61, .55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .drawer-sheet {
+      background: var(--white);
+      border: 1px solid var(--slate-mid);
+      border-bottom: none;
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 env(safe-area-inset-bottom, 20px);
+      transform: translateY(100%);
+      transition: transform .32s cubic-bezier(.34, 1.1, .64, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .drawer-overlay.open .drawer-sheet {
+      transform: translateY(0);
+    }
+
+    .drawer-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--slate-mid);
+      margin: 12px auto 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px 10px;
+      border-bottom: 1px solid var(--slate-mid);
+    }
+
+    .drawer-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .drawer-body {
+      padding: 16px 20px 20px;
+    }
+
+    .pin-gen-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(244, 162, 38, .3);
+      border-radius: var(--r-md);
+      padding: 12px 14px;
+    }
+
+    .pin-gen-code {
+      font-family: monospace;
+      font-size: 1.4rem;
+      letter-spacing: .2em;
+      color: var(--amber);
+      flex: 1;
+    }
+
+    .pin-gen-note {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ================================================================
+       TOAST
+    ================================================================ */
+    #toast {
+      position: fixed;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--navy);
+      border: 1px solid rgba(244, 162, 38, .25);
+      border-radius: var(--r-full);
+      padding: 11px 22px;
+      font-size: .86rem;
+      color: var(--text-light);
+      z-index: 9000;
+      transition: transform .3s cubic-bezier(.34, 1.3, .64, 1);
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #toast.ok {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    #toast.err {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    #toast.warn {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    /* ================================================================
+       LOADING OVERLAY
+    ================================================================ */
+    #loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(11, 28, 61, .7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+
+    #loading.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loading-spinner {
+      width: 42px;
+      height: 42px;
+      border: 3px solid rgba(244, 162, 38, .2);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* ================================================================
+       CHOP STAMP ANIMATION
+    ================================================================ */
+    .chop-stamp-anim {
+      position: fixed;
+      z-index: 9500;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      background: radial-gradient(circle, rgba(247, 186, 90, .95) 0%, rgba(244, 162, 38, .88) 100%);
+      border: 4px solid var(--amber-bright);
+      box-shadow: 0 0 40px rgba(244, 162, 38, .9);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+
+    .chop-stamp-anim.animate {
+      animation: chop-fall .7s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+
+    @keyframes chop-fall {
+      0% {
+        transform: translate(-50%, calc(-50% - 130px)) scale(1.7) rotate(-22deg);
+        opacity: 0;
+      }
+
+      38% {
+        transform: translate(-50%, -50%) scale(.88) rotate(4deg);
+        opacity: 1;
+      }
+
+      52% {
+        transform: translate(-50%, calc(-50% - 10px)) scale(1.08) rotate(-2deg);
+      }
+
+      66% {
+        transform: translate(-50%, calc(-50% + 5px)) scale(.97) rotate(1deg);
+      }
+
+      80% {
+        transform: translate(-50%, calc(-50% - 3px)) scale(1.02);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0);
+        opacity: 1;
+      }
+    }
+
+    /* ================================================================
+       CONFETTI
+    ================================================================ */
+    #confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9400;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -10px;
+      border-radius: 2px;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ================================================================
+       QR FULLSCREEN MODAL
+    ================================================================ */
+    #qr-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(11, 28, 61, .97);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 40px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    #qr-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .qr-modal-name {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .qr-modal-hint {
+      color: var(--text-dimmed);
+      font-size: .8rem;
+    }
+
+    /* ================================================================
+       UTILITY CLASSES
+    ================================================================ */
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .gap-2 {
+      gap: 8px;
+    }
+
+    .gap-3 {
+      gap: 12px;
+    }
+
+    .mt-1 {
+      margin-top: 4px;
+    }
+
+    .mt-2 {
+      margin-top: 8px;
+    }
+
+    .mt-3 {
+      margin-top: 12px;
+    }
+
+    .mt-4 {
+      margin-top: 16px;
+    }
+
+    .mt-6 {
+      margin-top: 24px;
+    }
+
+    .mb-2 {
+      margin-bottom: 8px;
+    }
+
+    .mb-3 {
+      margin-bottom: 12px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--slate-mid);
+      margin: 18px 0;
+    }
+
+    .chip {
+      display: inline-block;
+      background: var(--amber-dim);
+      border: 1px solid rgba(244, 162, 38, .35);
+      border-radius: var(--r-full);
+      padding: 2px 9px;
+      font-size: .7rem;
+      color: var(--amber);
+      font-family: var(--font-head);
+      font-weight: 700;
+    }
+
+    .chip-success {
+      background: rgba(34, 197, 94, .1);
+      border-color: rgba(34, 197, 94, .35);
+      color: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================================================================
+       LOADING OVERLAY
+  ================================================================ -->
+  <div id="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ================================================================
+       CONFETTI
+  ================================================================ -->
+  <div id="confetti"></div>
+
+  <!-- ================================================================
+       TOAST
+  ================================================================ -->
+  <div id="toast"></div>
+
+  <!-- ================================================================
+       QR FULLSCREEN MODAL
+  ================================================================ -->
+  <div id="qr-modal" onclick="closeQRModal()">
+    <div class="qr-canvas-wrap" style="background:#fff;padding:14px;border-radius:12px">
+      <canvas id="qr-modal-canvas"></canvas>
+    </div>
+    <div class="qr-modal-name" id="qr-modal-name"></div>
+    <div class="qr-modal-hint">Show this to your booth guide to get stamped</div>
+    <button class="btn btn-outline-light" onclick="closeQRModal()">Close</button>
+  </div>
+
+  <!-- ================================================================
+       WEEK DETAIL MODAL (slide-up sheet)
+  ================================================================ -->
+  <div class="modal-overlay" id="week-modal" onclick="handleModalBgClick(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title" id="modal-week-title">Week Detail</div>
+        <button class="btn btn-ghost btn-sm" onclick="closeWeekModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-week-body"><!-- JS fills --></div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       ADMIN FORM DRAWER
+  ================================================================ -->
+  <div class="drawer-overlay" id="drawer" onclick="handleDrawerBgClick(event)">
+    <div class="drawer-sheet" onclick="event.stopPropagation()">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <div class="drawer-title" id="drawer-title">Form</div>
+        <button class="btn btn-ghost btn-sm" onclick="closeDrawer()">✕</button>
+      </div>
+      <div class="drawer-body" id="drawer-body"><!-- JS fills --></div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: SPLASH
+  ================================================================ -->
+  <div class="screen active" id="splash" style="background:var(--navy-deep)">
+    <div class="splash-inner">
+      <div class="splash-logo">📒</div>
+      <div class="splash-title"><span>STEAMFest</span> Passport<br><span
+          style="font-size:1.1rem;font-weight:600;opacity:.85">(Parent)</span></div>
+      <div class="splash-sub">STEAMFest 2026 — Parent Track</div>
+      <div class="splash-loader"></div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: HOME (Visitor phone entry)
+  ================================================================ -->
+  <div class="screen" id="home">
+    <!-- Navy header band -->
+    <div class="app-header">
+      <div class="app-header-inner">
+        <div>
+          <div class="app-header-sub">STEAMFest 2026</div>
+          <div class="app-header-title">Parent Passport</div>
+        </div>
+        <div style="font-size:1.8rem;filter:drop-shadow(0 0 10px rgba(244,162,38,.5))">📒</div>
+      </div>
+    </div>
+
+    <div class="screen-inner" style="padding-top:0">
+      <div class="home-content">
+        <div class="home-hero">
+          <div class="home-emblem">📒</div>
+          <div class="home-title"><em>STEAMFest</em> Passport<br><span
+              style="font-size:1.1rem;color:var(--text-muted)">Parent 2026</span></div>
+          <div class="home-subtitle mt-2">Complete all booths each week to earn your chop.<br>16 weeks · Sponsors ·
+            Exhibitors · Partners</div>
+        </div>
+
+        <div class="card card-amber">
+          <div class="label mb-3">Enter your phone number</div>
+          <form id="phone-form">
+            <div class="form-group">
+              <input class="form-control" type="tel" id="phone-input" placeholder="+60 12-345 6789" autocomplete="tel"
+                required />
+              <div class="form-error" id="phone-error"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Continue →</button>
+          </form>
+        </div>
+
+        <div class="staff-link-row">
+          <a href="#" class="staff-link" onclick="showScreen('staff-login');return false">Staff / Redemption Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: REGISTER (new visitor)
+  ================================================================ -->
+  <div class="screen" id="register">
+    <div class="app-header">
+      <div class="app-header-inner">
+        <button class="btn-back-light" onclick="showScreen('home')">← Back</button>
+        <div class="app-header-title">Create Passport</div>
+        <div style="width:60px"></div>
+      </div>
+    </div>
+    <div class="screen-inner" style="padding-top:0">
+      <div style="padding-top:24px">
+        <div class="text-center mb-3" style="padding-top:8px">
+          <div style="font-size:2.4rem;margin-bottom:8px">📝</div>
+          <div style="font-family:var(--font-head);font-size:1.4rem;font-weight:800;color:var(--text-dark)">Create Your
+            Passport</div>
+          <div style="font-size:.88rem;color:var(--text-muted);margin-top:4px">Register once and collect chops all
+            festival long.</div>
+        </div>
+        <div class="card">
+          <form id="register-form">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input class="form-control" type="text" id="reg-name" placeholder="Your Name" required
+                autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input class="form-control" type="tel" id="reg-phone" placeholder="+60 12-345 6789" required
+                autocomplete="tel" readonly />
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input class="form-control" type="email" id="reg-email" placeholder="you@example.com"
+                autocomplete="email" />
+            </div>
+            <div class="form-error" id="reg-error"></div>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Create My Passport 🎉</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: VISITOR DASHBOARD
+  ================================================================ -->
+  <div class="screen" id="dashboard" style="background:var(--slate)">
+    <!-- Navy header -->
+    <div class="visitor-header">
+      <div class="visitor-header-inner">
+        <div class="visitor-meta">
+          <div class="visitor-avatar" id="visitor-avatar">?</div>
+          <div>
+            <div class="visitor-name-hdr" id="visitor-name-display">Visitor</div>
+            <div class="visitor-week-hdr" id="visitor-week-hdr">STEAMFest 2026</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="header-icon-btn spin-btn" id="refresh-btn" onclick="refreshDashboard()"
+            title="Refresh">🔄</button>
+          <button class="header-btn" onclick="confirmLogout()">Sign out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard body (scrollable white area) -->
+    <div class="dash-body">
+
+      <!-- QR Code Card -->
+      <div class="card qr-card mt-4" id="qr-section">
+        <div class="label-dark mb-3">My Passport QR</div>
+        <div class="qr-canvas-wrap" id="qr-wrap" onclick="openQRModal()" title="Tap to enlarge">
+          <canvas id="qr-canvas"></canvas>
+        </div>
+        <div class="qr-label">Show this to your booth guide to get stamped · Tap to enlarge</div>
+      </div>
+
+      <!-- Chop Progress Card -->
+      <div class="card mt-3">
+        <div class="flex justify-between items-center mb-3">
+          <div class="label-dark">Chop Progress</div>
+          <div class="chip" id="chop-chip">0 / 16 weeks</div>
+        </div>
+        <div class="chop-stat-row mb-3">
+          <div class="chop-icon-big">✅</div>
+          <div>
+            <div class="chop-count" id="chop-count">0</div>
+            <div class="chop-label">chops earned</div>
+          </div>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="chop-bar" style="width:0%"></div>
+        </div>
+        <div class="muted mt-2" id="chop-sub" style="font-size:.78rem">Visit all booths each week to earn a chop!</div>
+      </div>
+
+      <!-- This week's progress (if active week) -->
+      <div class="card mt-3" id="current-week-card" style="display:none">
+        <div class="flex justify-between items-center mb-2">
+          <div class="label-dark" id="cw-label">This Week</div>
+          <div class="chip" id="cw-chip">0 / 0</div>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="cw-bar" style="width:0%"></div>
+        </div>
+        <div class="muted mt-2" id="cw-sub" style="font-size:.78rem">Complete all booths to earn this week's chop!</div>
+      </div>
+
+      <!-- 16-Week Punch-Card Grid -->
+      <div class="mt-4">
+        <div class="section-label">📒 My 16-Week Chop Card</div>
+        <div class="punch-grid" id="punch-grid"><!-- JS fills --></div>
+      </div>
+
+      <div style="height:32px"></div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: STAFF LOGIN (role select) — dark screen
+  ================================================================ -->
+  <div class="screen dark-screen" id="staff-login">
+    <div class="screen-inner">
+      <div style="padding-top:env(safe-area-inset-top,16px)">
+        <button class="btn-back-light" onclick="showScreen('home')">← Back</button>
+      </div>
+      <div class="pin-screen-header">
+        <div class="pin-screen-icon">🔐</div>
+        <div class="pin-screen-title">Staff Access</div>
+        <div class="pin-screen-sub">Select your role to continue</div>
+      </div>
+      <div class="role-grid">
+        <button class="role-card" onclick="showScreen('guide-login')">
+          <div class="role-card-icon">📱</div>
+          <div>
+            <div class="role-card-name">Booth Guide</div>
+            <div class="role-card-desc">Scan visitor QR codes at your booth</div>
+          </div>
+        </button>
+        <button class="role-card" onclick="showScreen('redemption-login')">
+          <div class="role-card-icon">🎁</div>
+          <div>
+            <div class="role-card-name">Redemption Desk</div>
+            <div class="role-card-desc">Check eligibility and mark weekly gifts</div>
+          </div>
+        </button>
+        <button class="role-card" onclick="showScreen('admin-login')">
+          <div class="role-card-icon">⚙️</div>
+          <div>
+            <div class="role-card-name">Administrator</div>
+            <div class="role-card-desc">Manage weeks, booths, and lucky draw</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: GUIDE LOGIN (PIN pad)
+  ================================================================ -->
+  <div class="screen dark-screen" id="guide-login">
+    <div class="screen-inner">
+      <div style="padding-top:env(safe-area-inset-top,16px)">
+        <button class="btn-back-light" onclick="showScreen('staff-login')">← Back</button>
+      </div>
+      <div class="pin-screen-header">
+        <div class="pin-screen-icon">📱</div>
+        <div class="pin-screen-title">Booth Guide Login</div>
+        <div class="pin-screen-sub">Enter your 6-digit booth PIN</div>
+      </div>
+      <div class="pin-wrap">
+        <div class="pin-dots" id="guide-pin-dots">
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+        </div>
+        <div class="pin-keys">
+          <button class="pin-key" onclick="pinPress('guide','1')">1</button>
+          <button class="pin-key" onclick="pinPress('guide','2')">2</button>
+          <button class="pin-key" onclick="pinPress('guide','3')">3</button>
+          <button class="pin-key" onclick="pinPress('guide','4')">4</button>
+          <button class="pin-key" onclick="pinPress('guide','5')">5</button>
+          <button class="pin-key" onclick="pinPress('guide','6')">6</button>
+          <button class="pin-key" onclick="pinPress('guide','7')">7</button>
+          <button class="pin-key" onclick="pinPress('guide','8')">8</button>
+          <button class="pin-key" onclick="pinPress('guide','9')">9</button>
+          <button class="pin-key pin-key-blank" disabled></button>
+          <button class="pin-key" onclick="pinPress('guide','0')">0</button>
+          <button class="pin-key pin-key-del" onclick="pinDel('guide')">⌫</button>
+        </div>
+        <div class="pin-error-msg" id="guide-pin-error"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: GUIDE SCANNER
+  ================================================================ -->
+  <div class="screen dark-screen" id="guide-scan">
+    <div class="screen-inner">
+      <div class="scanner-header">
+        <div>
+          <div class="scanner-booth-chip">📍 Scanning at</div>
+          <div class="scanner-booth-name" id="guide-booth-name">Booth Name</div>
+          <div class="scanner-booth-sub" id="guide-booth-week">Week —</div>
+        </div>
+        <button class="btn btn-outline-light btn-sm" onclick="guideLogout()">End Session</button>
+      </div>
+      <div class="scanner-wrap">
+        <div id="qr-reader"></div>
+        <div class="scanner-overlay">
+          <div class="scan-reticle">
+            <div class="reticle-corner tl"></div>
+            <div class="reticle-corner tr"></div>
+            <div class="reticle-corner bl"></div>
+            <div class="reticle-corner br"></div>
+            <div class="scan-line"></div>
+          </div>
+        </div>
+        <div class="scan-result" id="scan-result">
+          <div class="scan-result-icon" id="sr-icon"></div>
+          <div class="scan-result-title" id="sr-title"></div>
+          <div class="scan-result-sub" id="sr-sub"></div>
+          <button class="btn btn-outline-light mt-4" onclick="resetScan()">Scan Another</button>
+        </div>
+      </div>
+      <div class="scanner-hint">Point camera at the visitor's QR code</div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: REDEMPTION LOGIN (PIN pad)
+  ================================================================ -->
+  <div class="screen dark-screen" id="redemption-login">
+    <div class="screen-inner">
+      <div style="padding-top:env(safe-area-inset-top,16px)">
+        <button class="btn-back-light" onclick="showScreen('staff-login')">← Back</button>
+      </div>
+      <div class="pin-screen-header">
+        <div class="pin-screen-icon">🎁</div>
+        <div class="pin-screen-title">Redemption Desk</div>
+        <div class="pin-screen-sub">Enter the 6-digit redemption PIN</div>
+      </div>
+      <div class="pin-wrap">
+        <div class="pin-dots" id="redemption-pin-dots">
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+        </div>
+        <div class="pin-keys">
+          <button class="pin-key" onclick="pinPress('redemption','1')">1</button>
+          <button class="pin-key" onclick="pinPress('redemption','2')">2</button>
+          <button class="pin-key" onclick="pinPress('redemption','3')">3</button>
+          <button class="pin-key" onclick="pinPress('redemption','4')">4</button>
+          <button class="pin-key" onclick="pinPress('redemption','5')">5</button>
+          <button class="pin-key" onclick="pinPress('redemption','6')">6</button>
+          <button class="pin-key" onclick="pinPress('redemption','7')">7</button>
+          <button class="pin-key" onclick="pinPress('redemption','8')">8</button>
+          <button class="pin-key" onclick="pinPress('redemption','9')">9</button>
+          <button class="pin-key pin-key-blank" disabled></button>
+          <button class="pin-key" onclick="pinPress('redemption','0')">0</button>
+          <button class="pin-key pin-key-del" onclick="pinDel('redemption')">⌫</button>
+        </div>
+        <div class="pin-error-msg" id="redemption-pin-error"></div>
+      </div>
+      <p class="muted-light text-center" style="font-size:.75rem">Default PIN: 000001 — change after first login</p>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: REDEMPTION SCANNER
+  ================================================================ -->
+  <div class="screen dark-screen" id="redemption-scan">
+    <div class="screen-inner">
+      <div class="scanner-header">
+        <div>
+          <div class="scanner-booth-chip">🎁 Redemption Desk</div>
+          <div class="scanner-booth-name" id="redemption-week-display">Week —</div>
+          <div class="scanner-booth-sub">Scan to check eligibility</div>
+        </div>
+        <button class="btn btn-outline-light btn-sm" onclick="redemptionLogout()">End Session</button>
+      </div>
+      <div class="scanner-wrap">
+        <div id="qr-reader-redemption"></div>
+        <div class="scanner-overlay">
+          <div class="scan-reticle">
+            <div class="reticle-corner tl"></div>
+            <div class="reticle-corner tr"></div>
+            <div class="reticle-corner bl"></div>
+            <div class="reticle-corner br"></div>
+            <div class="scan-line"></div>
+          </div>
+        </div>
+        <!-- Redemption result overlay -->
+        <div class="redemption-result" id="redemption-result">
+          <div class="redemption-state-icon" id="rr-icon"></div>
+          <div class="redemption-visitor-name" id="rr-name"></div>
+          <div class="redemption-status-label" id="rr-status"></div>
+          <div class="redemption-detail" id="rr-detail"></div>
+          <button class="btn btn-success mt-3" id="rr-redeem-btn" onclick="markRedeemed()" style="display:none">✓ Mark
+            Redeemed</button>
+          <button class="btn btn-outline-light mt-2" onclick="resetRedemption()">Scan Another</button>
+        </div>
+      </div>
+      <div class="scanner-hint">Scan visitor QR to check their status for this week</div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: ADMIN LOGIN (PIN pad)
+  ================================================================ -->
+  <div class="screen dark-screen" id="admin-login">
+    <div class="screen-inner">
+      <div style="padding-top:env(safe-area-inset-top,16px)">
+        <button class="btn-back-light" onclick="showScreen('staff-login')">← Back</button>
+      </div>
+      <div class="pin-screen-header">
+        <div class="pin-screen-icon">⚙️</div>
+        <div class="pin-screen-title">Admin Login</div>
+        <div class="pin-screen-sub">Enter the 6-digit admin PIN</div>
+      </div>
+      <div class="pin-wrap">
+        <div class="pin-dots" id="admin-pin-dots">
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+        </div>
+        <div class="pin-keys">
+          <button class="pin-key" onclick="pinPress('admin','1')">1</button>
+          <button class="pin-key" onclick="pinPress('admin','2')">2</button>
+          <button class="pin-key" onclick="pinPress('admin','3')">3</button>
+          <button class="pin-key" onclick="pinPress('admin','4')">4</button>
+          <button class="pin-key" onclick="pinPress('admin','5')">5</button>
+          <button class="pin-key" onclick="pinPress('admin','6')">6</button>
+          <button class="pin-key" onclick="pinPress('admin','7')">7</button>
+          <button class="pin-key" onclick="pinPress('admin','8')">8</button>
+          <button class="pin-key" onclick="pinPress('admin','9')">9</button>
+          <button class="pin-key pin-key-blank" disabled></button>
+          <button class="pin-key" onclick="pinPress('admin','0')">0</button>
+          <button class="pin-key pin-key-del" onclick="pinDel('admin')">⌫</button>
+        </div>
+        <div class="pin-error-msg" id="admin-pin-error"></div>
+      </div>
+      <p class="muted-light text-center" style="font-size:.75rem">Default PIN: 000000 — change after first login</p>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN: ADMIN DASHBOARD
+  ================================================================ -->
+  <div class="screen" id="admin-dash">
+    <!-- Navy header -->
+    <div class="admin-header">
+      <div class="admin-header-inner">
+        <div>
+          <div class="app-header-sub">Admin Panel</div>
+          <div class="app-header-title">STEAMFest Parent</div>
+        </div>
+        <button class="header-btn" onclick="adminLogout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="admin-body">
+      <!-- Stats -->
+      <div class="admin-stats mt-4" id="admin-stats">
+        <div class="stat-tile">
+          <div class="stat-val" id="st-participants">—</div>
+          <div class="stat-lbl">Registered</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-val" id="st-chops">—</div>
+          <div class="stat-lbl">Total Chops</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-val" id="st-weeks">—</div>
+          <div class="stat-lbl">Weeks Set Up</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-val" id="st-booths">—</div>
+          <div class="stat-lbl">Active Booths</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('weeks',this)">📅 Weeks</button>
+        <button class="admin-tab" onclick="switchAdminTab('booths',this)">📍 Booths</button>
+        <button class="admin-tab" onclick="switchAdminTab('visitors',this)">👤 Visitors</button>
+        <button class="admin-tab" onclick="switchAdminTab('luckydraw',this)">🎰 Lucky Draw</button>
+        <button class="admin-tab" onclick="switchAdminTab('settings',this)">🔑 Settings</button>
+      </div>
+
+      <!-- Tab: Weeks -->
+      <div id="tab-weeks">
+        <div class="flex justify-between items-center mb-2">
+          <span class="muted" style="font-size:.8rem">Festival week calendar</span>
+          <button class="btn btn-primary btn-sm" onclick="openWeekForm(null)">+ Add Week</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Wk</th>
+                  <th>Title</th>
+                  <th>Dates</th>
+                  <th>Booths</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="weeks-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Booths -->
+      <div id="tab-booths" style="display:none">
+        <div class="flex justify-between items-center mb-2">
+          <span class="muted" style="font-size:.8rem">All booths</span>
+          <button class="btn btn-primary btn-sm" onclick="openBoothForm(null)">+ Add Booth</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Week</th>
+                  <th>PIN</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="booths-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Visitors -->
+      <div id="tab-visitors" style="display:none">
+        <div class="form-group mb-3">
+          <input class="form-control" id="search-input" type="search" placeholder="Search by name or phone…"
+            oninput="filterVisitors(this.value)" />
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Chops</th>
+                  <th>Checkins</th>
+                </tr>
+              </thead>
+              <tbody id="visitors-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Lucky Draw -->
+      <div id="tab-luckydraw" style="display:none">
+        <div class="card mb-3">
+          <div
+            style="font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:6px">
+            Lucky Draw Pool</div>
+          <p class="muted" style="font-size:.82rem;line-height:1.55;margin-bottom:14px">
+            Every <strong>3 chops = 1 entry</strong>. This is computed live — never stored.<br>
+            Exporting produces a flat list with each participant's name+phone repeated by their entry count — ready for
+            an offline draw.
+          </p>
+          <button class="btn btn-primary btn-block" onclick="exportLuckyDraw()">⬇ Export Lucky Draw Pool</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Chops</th>
+                  <th>Entries</th>
+                </tr>
+              </thead>
+              <tbody id="luckydraw-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="muted mt-3" style="font-size:.75rem;text-align:center">Participants with &lt;3 chops are not listed
+          — they have 0 entries.</div>
+      </div>
+
+      <!-- Tab: Settings -->
+      <div id="tab-settings" style="display:none">
+        <!-- Change admin PIN -->
+        <div class="card mb-3">
+          <h3 style="font-size:.95rem;margin-bottom:14px;color:var(--text-dark)">Change Admin PIN</h3>
+          <form id="change-admin-pin-form">
+            <div class="form-group">
+              <label>Current PIN</label>
+              <input class="form-control" type="password" id="cap-current" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-group">
+              <label>New PIN (6 digits)</label>
+              <input class="form-control" type="password" id="cap-new" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-group">
+              <label>Confirm New PIN</label>
+              <input class="form-control" type="password" id="cap-confirm" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-error" id="cap-error"></div>
+            <button type="submit" class="btn btn-primary btn-block">Update Admin PIN</button>
+          </form>
+        </div>
+        <!-- Change redemption PIN -->
+        <div class="card mb-3">
+          <h3 style="font-size:.95rem;margin-bottom:14px;color:var(--text-dark)">Change Redemption Desk PIN</h3>
+          <form id="change-redemption-pin-form">
+            <div class="form-group">
+              <label>Current PIN</label>
+              <input class="form-control" type="password" id="crp-current" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-group">
+              <label>New PIN (6 digits)</label>
+              <input class="form-control" type="password" id="crp-new" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-group">
+              <label>Confirm New PIN</label>
+              <input class="form-control" type="password" id="crp-confirm" maxlength="6" pattern="[0-9]{6}"
+                placeholder="••••••" required />
+            </div>
+            <div class="form-error" id="crp-error"></div>
+            <button type="submit" class="btn btn-primary btn-block">Update Redemption PIN</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.95rem;margin-bottom:6px;color:var(--text-dark)">Supabase Connection</h3>
+          <p class="muted" style="font-size:.8rem;line-height:1.5">Edit <code>index.html</code> and replace
+            <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> at the top of the script block with your
+            <strong>separate parents project</strong> credentials.
+          </p>
+        </div>
+      </div>
+
+      <div style="height:32px"></div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================
+       CDN: Supabase JS v2
+  ================================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <!-- ================================================================
+       INLINE QR GENERATION LIBRARY (kazuhikoarase/qrcode-generator)
+       Embedded directly to avoid CDN reliability issues.
+  ================================================================ -->
+  <script>
+    var qrcode = function () { var t = function (t, r) { var e = t, n = g[r], o = null, i = 0, a = null, u = [], f = {}, c = function (t, r) { o = function (t) { for (var r = new Array(t), e = 0; e < t; e += 1) { r[e] = new Array(t); for (var n = 0; n < t; n += 1)r[e][n] = null } return r }(i = 4 * e + 17), l(0, 0), l(i - 7, 0), l(0, i - 7), s(), h(), d(t, r), e >= 7 && v(t), null == a && (a = p(e, n, u)), w(a, r) }, l = function (t, r) { for (var e = -1; e <= 7; e += 1)if (!(t + e <= -1 || i <= t + e)) for (var n = -1; n <= 7; n += 1)r + n <= -1 || i <= r + n || (o[t + e][r + n] = 0 <= e && e <= 6 && (0 == n || 6 == n) || 0 <= n && n <= 6 && (0 == e || 6 == e) || 2 <= e && e <= 4 && 2 <= n && n <= 4) }, h = function () { for (var t = 8; t < i - 8; t += 1)null == o[t][6] && (o[t][6] = t % 2 == 0); for (var r = 8; r < i - 8; r += 1)null == o[6][r] && (o[6][r] = r % 2 == 0) }, s = function () { for (var t = B.getPatternPosition(e), r = 0; r < t.length; r += 1)for (var n = 0; n < t.length; n += 1) { var i = t[r], a = t[n]; if (null == o[i][a]) for (var u = -2; u <= 2; u += 1)for (var f = -2; f <= 2; f += 1)o[i + u][a + f] = -2 == u || 2 == u || -2 == f || 2 == f || 0 == u && 0 == f } }, v = function (t) { for (var r = B.getBCHTypeNumber(e), n = 0; n < 18; n += 1) { var a = !t && 1 == (r >> n & 1); o[Math.floor(n / 3)][n % 3 + i - 8 - 3] = a } for (n = 0; n < 18; n += 1) { a = !t && 1 == (r >> n & 1); o[n % 3 + i - 8 - 3][Math.floor(n / 3)] = a } }, d = function (t, r) { for (var e = n << 3 | r, a = B.getBCHTypeInfo(e), u = 0; u < 15; u += 1) { var f = !t && 1 == (a >> u & 1); u < 6 ? o[u][8] = f : u < 8 ? o[u + 1][8] = f : o[i - 15 + u][8] = f } for (u = 0; u < 15; u += 1) { f = !t && 1 == (a >> u & 1); u < 8 ? o[8][i - u - 1] = f : u < 9 ? o[8][15 - u - 1 + 1] = f : o[8][15 - u - 1] = f } o[i - 8][8] = !t }, w = function (t, r) { for (var e = -1, n = i - 1, a = 7, u = 0, f = B.getMaskFunction(r), c = i - 1; c > 0; c -= 2)for (6 == c && (c -= 1); ;) { for (var g = 0; g < 2; g += 1)if (null == o[n][c - g]) { var l = !1; u < t.length && (l = 1 == (t[u] >>> a & 1)), f(n, c - g) && (l = !l), o[n][c - g] = l, -1 == (a -= 1) && (u += 1, a = 7) } if ((n += e) < 0 || i <= n) { n -= e, e = -e; break } } }, p = function (t, r, e) { for (var n = A.getRSBlocks(t, r), o = b(), i = 0; i < e.length; i += 1) { var a = e[i]; o.put(a.getMode(), 4), o.put(a.getLength(), B.getLengthInBits(a.getMode(), t)), a.write(o) } var u = 0; for (i = 0; i < n.length; i += 1)u += n[i].dataCount; if (o.getLengthInBits() > 8 * u) throw "code length overflow. (" + o.getLengthInBits() + ">" + 8 * u + ")"; for (o.getLengthInBits() + 4 <= 8 * u && o.put(0, 4); o.getLengthInBits() % 8 != 0;)o.putBit(!1); for (; !(o.getLengthInBits() >= 8 * u || (o.put(236, 8), o.getLengthInBits() >= 8 * u));)o.put(17, 8); return function (t, r) { for (var e = 0, n = 0, o = 0, i = new Array(r.length), a = new Array(r.length), u = 0; u < r.length; u += 1) { var f = r[u].dataCount, c = r[u].totalCount - f; n = Math.max(n, f), o = Math.max(o, c), i[u] = new Array(f); for (var g = 0; g < i[u].length; g += 1)i[u][g] = 255 & t.getBuffer()[g + e]; e += f; var l = B.getErrorCorrectPolynomial(c), h = k(i[u], l.getLength() - 1).mod(l); for (a[u] = new Array(l.getLength() - 1), g = 0; g < a[u].length; g += 1) { var s = g + h.getLength() - a[u].length; a[u][g] = s >= 0 ? h.getAt(s) : 0 } } var v = 0; for (g = 0; g < r.length; g += 1)v += r[g].totalCount; var d = new Array(v), w = 0; for (g = 0; g < n; g += 1)for (u = 0; u < r.length; u += 1)g < i[u].length && (d[w] = i[u][g], w += 1); for (g = 0; g < o; g += 1)for (u = 0; u < r.length; u += 1)g < a[u].length && (d[w] = a[u][g], w += 1); return d }(o, n) }; f.addData = function (t, r) { var e = null; switch (r = r || "Byte") { case "Numeric": e = M(t); break; case "Alphanumeric": e = x(t); break; case "Byte": e = m(t); break; case "Kanji": e = L(t); break; default: throw "mode:" + r }u.push(e), a = null }, f.isDark = function (t, r) { if (t < 0 || i <= t || r < 0 || i <= r) throw t + "," + r; return o[t][r] }, f.getModuleCount = function () { return i }, f.make = function () { if (e < 1) { for (var t = 1; t < 40; t++) { for (var r = A.getRSBlocks(t, n), o = b(), i = 0; i < u.length; i++) { var a = u[i]; o.put(a.getMode(), 4), o.put(a.getLength(), B.getLengthInBits(a.getMode(), t)), a.write(o) } var g = 0; for (i = 0; i < r.length; i++)g += r[i].dataCount; if (o.getLengthInBits() <= 8 * g) break } e = t } c(!1, function () { for (var t = 0, r = 0, e = 0; e < 8; e += 1) { c(!0, e); var n = B.getLostPoint(f); (0 == e || t > n) && (t = n, r = e) } return r }()) }, f.renderTo2dContext = function (t, r) { r = r || 2; for (var e = f.getModuleCount(), n = 0; n < e; n++)for (var o = 0; o < e; o++)t.fillStyle = f.isDark(n, o) ? "black" : "white", t.fillRect(o * r, n * r, r, r) }; var y = function (t) { for (var r = "", e = 0; e < t.length; e += 1) { var n = t.charAt(e); switch (n) { case "<": r += "&lt;"; break; case ">": r += "&gt;"; break; case "&": r += "&amp;"; break; case '"': r += "&quot;"; break; default: r += n } } return r }; return f }; t.stringToBytes = (t.stringToBytesFuncs = { default: function (t) { for (var r = [], e = 0; e < t.length; e += 1) { var n = t.charCodeAt(e); r.push(255 & n) } return r } }).default; var r, e, n, o, i, a = 1, u = 2, f = 4, c = 8, g = { L: 1, M: 0, Q: 3, H: 2 }, l = 0, h = 1, s = 2, v = 3, d = 4, w = 5, p = 6, y = 7, B = (r = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50], [6, 30, 54], [6, 32, 58], [6, 34, 62], [6, 26, 46, 66], [6, 26, 48, 70], [6, 26, 50, 74], [6, 30, 54, 78], [6, 30, 56, 82], [6, 30, 58, 86], [6, 34, 62, 90], [6, 28, 50, 72, 94], [6, 26, 50, 74, 98], [6, 30, 54, 78, 102], [6, 28, 54, 80, 106], [6, 32, 58, 84, 110], [6, 30, 58, 86, 114], [6, 34, 62, 90, 118], [6, 26, 50, 74, 98, 122], [6, 30, 54, 78, 102, 126], [6, 26, 52, 78, 104, 130], [6, 30, 56, 82, 108, 134], [6, 34, 60, 86, 112, 138], [6, 30, 58, 86, 114, 142], [6, 34, 62, 90, 118, 146], [6, 30, 54, 78, 102, 126, 150], [6, 24, 50, 76, 102, 128, 154], [6, 28, 54, 80, 106, 132, 158], [6, 32, 58, 84, 110, 136, 162], [6, 26, 54, 82, 110, 138, 166], [6, 30, 58, 86, 114, 142, 170]], e = 1335, n = 7973, i = function (t) { for (var r = 0; 0 != t;)r += 1, t >>>= 1; return r }, (o = {}).getBCHTypeInfo = function (t) { for (var r = t << 10; i(r) - i(e) >= 0;)r ^= e << i(r) - i(e); return 21522 ^ (t << 10 | r) }, o.getBCHTypeNumber = function (t) { for (var r = t << 12; i(r) - i(n) >= 0;)r ^= n << i(r) - i(n); return t << 12 | r }, o.getPatternPosition = function (t) { return r[t - 1] }, o.getMaskFunction = function (t) { switch (t) { case l: return function (t, r) { return (t + r) % 2 == 0 }; case h: return function (t, r) { return t % 2 == 0 }; case s: return function (t, r) { return r % 3 == 0 }; case v: return function (t, r) { return (t + r) % 3 == 0 }; case d: return function (t, r) { return (Math.floor(t / 2) + Math.floor(r / 3)) % 2 == 0 }; case w: return function (t, r) { return t * r % 2 + t * r % 3 == 0 }; case p: return function (t, r) { return (t * r % 2 + t * r % 3) % 2 == 0 }; case y: return function (t, r) { return (t * r % 3 + (t + r) % 2) % 2 == 0 }; default: throw "bad maskPattern:" + t } }, o.getErrorCorrectPolynomial = function (t) { for (var r = k([1], 0), e = 0; e < t; e += 1)r = r.multiply(k([1, C.gexp(e)], 0)); return r }, o.getLengthInBits = function (t, r) { if (1 <= r && r < 10) switch (t) { case a: return 10; case u: return 9; case f: case c: return 8; default: throw "mode:" + t } else if (r < 27) switch (t) { case a: return 12; case u: return 11; case f: return 16; case c: return 10; default: throw "mode:" + t } else { if (!(r < 41)) throw "type:" + r; switch (t) { case a: return 14; case u: return 13; case f: return 16; case c: return 12; default: throw "mode:" + t } } }, o.getLostPoint = function (t) { for (var r = t.getModuleCount(), e = 0, n = 0; n < r; n += 1)for (var o = 0; o < r; o += 1) { for (var i = 0, a = t.isDark(n, o), u = -1; u <= 1; u += 1)if (!(n + u < 0 || r <= n + u)) for (var f = -1; f <= 1; f += 1)o + f < 0 || r <= o + f || 0 == u && 0 == f || a == t.isDark(n + u, o + f) && (i += 1); i > 5 && (e += 3 + i - 5) } for (n = 0; n < r - 1; n += 1)for (o = 0; o < r - 1; o += 1) { var c = 0; t.isDark(n, o) && (c += 1), t.isDark(n + 1, o) && (c += 1), t.isDark(n, o + 1) && (c += 1), t.isDark(n + 1, o + 1) && (c += 1), 0 != c && 4 != c || (e += 3) } for (n = 0; n < r; n += 1)for (o = 0; o < r - 6; o += 1)t.isDark(n, o) && !t.isDark(n, o + 1) && t.isDark(n, o + 2) && t.isDark(n, o + 3) && t.isDark(n, o + 4) && !t.isDark(n, o + 5) && t.isDark(n, o + 6) && (e += 40); for (o = 0; o < r; o += 1)for (n = 0; n < r - 6; n += 1)t.isDark(n, o) && !t.isDark(n + 1, o) && t.isDark(n + 2, o) && t.isDark(n + 3, o) && t.isDark(n + 4, o) && !t.isDark(n + 5, o) && t.isDark(n + 6, o) && (e += 40); var g = 0; for (o = 0; o < r; o += 1)for (n = 0; n < r; n += 1)t.isDark(n, o) && (g += 1); return e += Math.abs(100 * g / r / r - 50) / 5 * 10 }, o), C = function () { for (var t = new Array(256), r = new Array(256), e = 0; e < 8; e += 1)t[e] = 1 << e; for (e = 8; e < 256; e += 1)t[e] = t[e - 4] ^ t[e - 5] ^ t[e - 6] ^ t[e - 8]; for (e = 0; e < 255; e += 1)r[t[e]] = e; var n = { glog: function (t) { if (t < 1) throw "glog(" + t + ")"; return r[t] }, gexp: function (r) { for (; r < 0;)r += 255; for (; r >= 256;)r -= 255; return t[r] } }; return n }(); function k(t, r) { if (void 0 === t.length) throw t.length + "/" + r; var e = function () { for (var e = 0; e < t.length && 0 == t[e];)e += 1; for (var n = new Array(t.length - e + r), o = 0; o < t.length - e; o += 1)n[o] = t[o + e]; return n }(), n = { getAt: function (t) { return e[t] }, getLength: function () { return e.length }, multiply: function (t) { for (var r = new Array(n.getLength() + t.getLength() - 1), e = 0; e < n.getLength(); e += 1)for (var o = 0; o < t.getLength(); o += 1)r[e + o] ^= C.gexp(C.glog(n.getAt(e)) + C.glog(t.getAt(o))); return k(r, 0) }, mod: function (t) { if (n.getLength() - t.getLength() < 0) return n; for (var r = C.glog(n.getAt(0)) - C.glog(t.getAt(0)), e = new Array(n.getLength()), o = 0; o < n.getLength(); o += 1)e[o] = n.getAt(o); for (o = 0; o < t.getLength(); o += 1)e[o] ^= C.gexp(C.glog(t.getAt(o)) + r); return k(e, 0).mod(t) } }; return n } var A = function () { var t = [[1, 26, 19], [1, 26, 16], [1, 26, 13], [1, 26, 9], [1, 44, 34], [1, 44, 28], [1, 44, 22], [1, 44, 16], [1, 70, 55], [1, 70, 44], [2, 35, 17], [2, 35, 13], [1, 100, 80], [2, 50, 32], [2, 50, 24], [4, 25, 9], [1, 134, 108], [2, 67, 43], [2, 33, 15, 2, 34, 16], [2, 33, 11, 2, 34, 12], [2, 86, 68], [4, 43, 27], [4, 43, 19], [4, 43, 15], [2, 98, 78], [4, 49, 31], [2, 32, 14, 4, 33, 15], [4, 39, 13, 1, 40, 14], [2, 121, 97], [2, 60, 38, 2, 61, 39], [4, 40, 18, 2, 41, 19], [4, 40, 14, 2, 41, 15], [2, 146, 116], [3, 58, 36, 2, 59, 37], [4, 36, 16, 4, 37, 17], [4, 36, 12, 4, 37, 13], [2, 86, 68, 2, 87, 69], [4, 69, 43, 1, 70, 44], [6, 43, 19, 2, 44, 20], [6, 43, 15, 2, 44, 16], [4, 101, 81], [1, 80, 50, 4, 81, 51], [4, 50, 22, 4, 51, 23], [3, 36, 12, 8, 37, 13], [2, 116, 92, 2, 117, 93], [6, 58, 36, 2, 59, 37], [4, 46, 20, 6, 47, 21], [7, 42, 14, 4, 43, 15], [4, 133, 107], [8, 59, 37, 1, 60, 38], [8, 44, 20, 4, 45, 21], [12, 33, 11, 4, 34, 12], [3, 145, 115, 1, 146, 116], [4, 64, 40, 5, 65, 41], [11, 36, 16, 5, 37, 17], [11, 36, 12, 5, 37, 13], [5, 109, 87, 1, 110, 88], [5, 65, 41, 5, 66, 42], [5, 54, 24, 7, 55, 25], [11, 36, 12, 7, 37, 13], [5, 122, 98, 1, 123, 99], [7, 73, 45, 3, 74, 46], [15, 43, 19, 2, 44, 20], [3, 45, 15, 13, 46, 16], [1, 135, 107, 5, 136, 108], [10, 74, 46, 1, 75, 47], [1, 50, 22, 15, 51, 23], [2, 42, 14, 17, 43, 15], [5, 150, 120, 1, 151, 121], [9, 69, 43, 4, 70, 44], [17, 50, 22, 1, 51, 23], [2, 42, 14, 19, 43, 15], [3, 141, 113, 4, 142, 114], [3, 70, 44, 11, 71, 45], [17, 47, 21, 4, 48, 22], [9, 39, 13, 16, 40, 14], [3, 135, 107, 5, 136, 108], [3, 67, 41, 13, 68, 42], [15, 54, 24, 5, 55, 25], [15, 43, 15, 10, 44, 16], [4, 144, 116, 4, 145, 117], [17, 68, 42], [17, 50, 22, 6, 51, 23], [19, 46, 16, 6, 47, 17], [2, 139, 111, 7, 140, 112], [17, 74, 46], [7, 54, 24, 16, 55, 25], [34, 37, 13], [4, 151, 121, 5, 152, 122], [4, 75, 47, 14, 76, 48], [11, 54, 24, 14, 55, 25], [16, 45, 15, 14, 46, 16], [6, 147, 117, 4, 148, 118], [6, 73, 45, 14, 74, 46], [11, 54, 24, 16, 55, 25], [30, 46, 16, 2, 47, 17], [8, 132, 106, 4, 133, 107], [8, 75, 47, 13, 76, 48], [7, 54, 24, 22, 55, 25], [22, 45, 15, 13, 46, 16], [10, 142, 114, 2, 143, 115], [19, 74, 46, 4, 75, 47], [28, 50, 22, 6, 51, 23], [33, 46, 16, 4, 47, 17], [8, 152, 122, 4, 153, 123], [22, 73, 45, 3, 74, 46], [8, 53, 23, 26, 54, 24], [12, 45, 15, 28, 46, 16], [3, 147, 117, 10, 148, 118], [3, 73, 45, 23, 74, 46], [4, 54, 24, 31, 55, 25], [11, 45, 15, 31, 46, 16], [7, 146, 116, 7, 147, 117], [21, 73, 45, 7, 74, 46], [1, 53, 23, 37, 54, 24], [19, 45, 15, 26, 46, 16], [5, 145, 115, 10, 146, 116], [19, 75, 47, 10, 76, 48], [15, 54, 24, 25, 55, 25], [23, 45, 15, 25, 46, 16], [13, 145, 115, 3, 146, 116], [2, 74, 46, 29, 75, 47], [42, 54, 24, 1, 55, 25], [23, 45, 15, 28, 46, 16], [17, 145, 115], [10, 74, 46, 23, 75, 47], [10, 54, 24, 35, 55, 25], [19, 45, 15, 35, 46, 16], [17, 145, 115, 1, 146, 116], [14, 74, 46, 21, 75, 47], [29, 54, 24, 19, 55, 25], [11, 45, 15, 46, 46, 16], [13, 145, 115, 6, 146, 116], [14, 74, 46, 23, 75, 47], [44, 54, 24, 7, 55, 25], [59, 46, 16, 1, 47, 17], [12, 151, 121, 7, 152, 122], [12, 75, 47, 26, 76, 48], [39, 54, 24, 14, 55, 25], [22, 45, 15, 41, 46, 16], [6, 151, 121, 14, 152, 122], [6, 75, 47, 34, 76, 48], [46, 54, 24, 10, 55, 25], [2, 45, 15, 64, 46, 16], [17, 152, 122, 4, 153, 123], [29, 74, 46, 14, 75, 47], [49, 54, 24, 10, 55, 25], [24, 45, 15, 46, 46, 16], [4, 152, 122, 18, 153, 123], [13, 74, 46, 32, 75, 47], [48, 54, 24, 14, 55, 25], [42, 45, 15, 32, 46, 16], [20, 147, 117, 4, 148, 118], [40, 75, 47, 7, 76, 48], [43, 54, 24, 22, 55, 25], [10, 45, 15, 67, 46, 16], [19, 148, 118, 6, 149, 119], [18, 75, 47, 31, 76, 48], [34, 54, 24, 34, 55, 25], [20, 45, 15, 61, 46, 16]], r = function (t, r) { var e = {}; return e.totalCount = t, e.dataCount = r, e }, e = {}; return e.getRSBlocks = function (e, n) { var o = function (r, e) { switch (e) { case g.L: return t[4 * (r - 1) + 0]; case g.M: return t[4 * (r - 1) + 1]; case g.Q: return t[4 * (r - 1) + 2]; case g.H: return t[4 * (r - 1) + 3]; default: return } }(e, n); if (void 0 === o) throw "bad rs block @ typeNumber:" + e + "/errorCorrectionLevel:" + n; for (var i = o.length / 3, a = [], u = 0; u < i; u += 1)for (var f = o[3 * u + 0], c = o[3 * u + 1], l = o[3 * u + 2], h = 0; h < f; h += 1)a.push(r(c, l)); return a }, e }(), b = function () { var t = [], r = 0, e = { getBuffer: function () { return t }, getAt: function (r) { var e = Math.floor(r / 8); return 1 == (t[e] >>> 7 - r % 8 & 1) }, put: function (t, r) { for (var n = 0; n < r; n += 1)e.putBit(1 == (t >>> r - n - 1 & 1)) }, getLengthInBits: function () { return r }, putBit: function (e) { var n = Math.floor(r / 8); t.length <= n && t.push(0), e && (t[n] |= 128 >>> r % 8), r += 1 } }; return e }, M = function (t) { var r = a, e = t, n = { getMode: function () { return r }, getLength: function (t) { return e.length }, write: function (t) { for (var r = e, n = 0; n + 2 < r.length;)t.put(o(r.substring(n, n + 3)), 10), n += 3; n < r.length && (r.length - n == 1 ? t.put(o(r.substring(n, n + 1)), 4) : r.length - n == 2 && t.put(o(r.substring(n, n + 2)), 7)) } }, o = function (t) { for (var r = 0, e = 0; e < t.length; e += 1)r = 10 * r + i(t.charAt(e)); return r }, i = function (t) { if ("0" <= t && t <= "9") return t.charCodeAt(0) - "0".charCodeAt(0); throw "illegal char :" + t }; return n }, x = function (t) { var r = u, e = t, n = { getMode: function () { return r }, getLength: function (t) { return e.length }, write: function (t) { for (var r = e, n = 0; n + 1 < r.length;)t.put(45 * o(r.charAt(n)) + o(r.charAt(n + 1)), 11), n += 2; n < r.length && t.put(o(r.charAt(n)), 6) } }, o = function (t) { if ("0" <= t && t <= "9") return t.charCodeAt(0) - "0".charCodeAt(0); if ("A" <= t && t <= "Z") return t.charCodeAt(0) - "A".charCodeAt(0) + 10; switch (t) { case " ": return 36; case "$": return 37; case "%": return 38; case "*": return 39; case "+": return 40; case "-": return 41; case ".": return 42; case "/": return 43; case ":": return 44; default: throw "illegal char :" + t } }; return n }, m = function (r) { var e = f, n = t.stringToBytes(r), o = { getMode: function () { return e }, getLength: function (t) { return n.length }, write: function (t) { for (var r = 0; r < n.length; r += 1)t.put(n[r], 8) } }; return o }, D = function () { var t = [], r = { writeByte: function (r) { t.push(255 & r) }, writeShort: function (t) { r.writeByte(t), r.writeByte(t >>> 8) }, writeBytes: function (t, e, n) { e = e || 0, n = n || t.length; for (var o = 0; o < n; o += 1)r.writeByte(t[o + e]) }, writeString: function (t) { for (var e = 0; e < t.length; e += 1)r.writeByte(t.charCodeAt(e)) }, toByteArray: function () { return t }, toString: function () { var r = ""; r += "["; for (var e = 0; e < t.length; e += 1)e > 0 && (r += ","), r += t[e]; return r += "]" } }; return r }; return t }(); qrcode.stringToBytesFuncs["UTF-8"] = function (t) { return function (t) { for (var r = [], e = 0; e < t.length; e++) { var n = t.charCodeAt(e); n < 128 ? r.push(n) : n < 2048 ? r.push(192 | n >> 6, 128 | 63 & n) : n < 55296 || n >= 57344 ? r.push(224 | n >> 12, 128 | n >> 6 & 63, 128 | 63 & n) : (e++, n = 65536 + ((1023 & n) << 10 | 1023 & t.charCodeAt(e)), r.push(240 | n >> 18, 128 | n >> 12 & 63, 128 | n >> 6 & 63, 128 | 63 & n)) } return r }(t) };
+
+    function drawQRToCanvas(canvas, text, size, darkColor, lightColor) {
+      if (!canvas || !text) return;
+      var qr = qrcode(0, 'M');
+      qr.addData(String(text));
+      qr.make();
+      var count = qr.getModuleCount();
+      var cellSize = Math.max(1, Math.floor(size / count));
+      var actualSize = cellSize * count;
+      canvas.width = actualSize;
+      canvas.height = actualSize;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = lightColor;
+      ctx.fillRect(0, 0, actualSize, actualSize);
+      ctx.fillStyle = darkColor;
+      for (var row = 0; row < count; row++) {
+        for (var col = 0; col < count; col++) {
+          if (qr.isDark(row, col)) {
+            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- jsQR scanner (CDN) -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <script>
+    /* ================================================================
+       ██████╗  █████╗ ██████╗ ███████╗███╗   ██╗████████╗███████╗
+       ██╔══██╗██╔══██╗██╔══██╗██╔════╝████╗  ██║╚══██╔══╝██╔════╝
+       ██████╔╝███████║██████╔╝█████╗  ██╔██╗ ██║   ██║   ███████╗
+       ██╔═══╝ ██╔══██║██╔══██╗██╔══╝  ██║╚██╗██║   ██║   ╚════██║
+       ██║     ██║  ██║██║  ██║███████╗██║ ╚████║   ██║   ███████║
+       ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+       STEAMFest Passport 2026 (Parent)
+    ================================================================ */
+
+    /* ─── CONFIGURATION ─────────────────────────────────────────── */
+    const SUPABASE_URL = 'https://kftweldwsbpbkirnvbqq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmdHdlbGR3c2JwYmtpcm52YnFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NTY0MjEsImV4cCI6MjEwMDMzMjQyMX0.0mtDvqYGUXUtp-_I3cKipym6yYMeoFxx_W7uCLobJtI';
+
+    /* ─── SUPABASE CLIENT ───────────────────────────────────────── */
+    let sb = null;
+    function initSupabase() {
+      if (SUPABASE_URL.includes('YOUR_PROJECT') || SUPABASE_ANON_KEY.includes('YOUR_ANON_KEY')) return false;
+      const { createClient } = supabase;
+      sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      return true;
+    }
+
+    /* ─── APP STATE ─────────────────────────────────────────────── */
+    const st = {
+      visitor: null,   // participant record
+      guide: null,   // { booth, week }
+      isRedemption: false,  // redemption desk session
+      isAdmin: false,
+      weeks: [],
+      booths: [],
+      checkins: [],     // visitor's checkins this session
+      chops: [],     // visitor's weekly_chops
+      allParticipants: [],     // admin
+      allCheckins: [],     // admin
+      allChops: [],     // admin
+      scanner: null,
+      redemptionScanner: null,
+      adminTab: 'weeks',
+      drawerMode: null,
+      drawerData: null,
+      generatedPIN: null,
+      // redemption desk state
+      rdParticipant: null,   // current scanned participant at redemption desk
+      rdChopRow: null,   // their chop row for current week
+      rdActiveWeek: null,   // active week at redemption desk login time
+    };
+
+    /* ─── ROUTER ────────────────────────────────────────────────── */
+    const historyStack = [];
+    function showScreen(id, pushHistory = true) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const el2 = document.getElementById(id);
+      if (el2) {
+        el2.classList.add('active');
+        if (pushHistory) historyStack.push(id);
+        window.scrollTo(0, 0);
+      }
+    }
+
+    /* ─── UTILITIES ─────────────────────────────────────────────── */
+    const el = id => document.getElementById(id);
+
+    let toastTimer;
+    function toast(msg, type = '', dur = 3000) {
+      const t = el('toast');
+      t.textContent = msg;
+      t.className = 'show ' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), dur);
+    }
+
+    function showLoading(on) { el('loading').classList.toggle('show', on); }
+
+    function generatePIN() { return String(Math.floor(100000 + Math.random() * 900000)); }
+
+    function formatDate(d) {
+      if (!d) return '—';
+      return new Date(d + 'T00:00:00').toLocaleDateString('en-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function formatDateTime(dt) {
+      if (!dt) return '—';
+      return new Date(dt).toLocaleString('en-MY', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function getActiveWeek() {
+      const today = new Date().toISOString().slice(0, 10);
+      return st.weeks.find(w => today >= w.start_date && today <= w.end_date) || null;
+    }
+
+    function getWeekStatus(week) {
+      const today = new Date().toISOString().slice(0, 10);
+      if (today < week.start_date) return 'future';
+      if (today > week.end_date) return 'past';
+      return 'current';
+    }
+
+    // Returns { total, visited, earned } for a given week for current visitor
+    function getWeekProgress(weekId) {
+      const activeBooths = st.booths.filter(b => b.week_id === weekId && b.active);
+      const boothIds = new Set(activeBooths.map(b => b.id));
+      const visitedCount = st.checkins.filter(c => c.week_id === weekId && boothIds.has(c.booth_id)).length;
+      const total = activeBooths.length;
+      const earned = total > 0 && visitedCount >= total; // 100% rule
+      return { total, visited: visitedCount, earned, allBooths: st.booths.filter(b => b.week_id === weekId) };
+    }
+
+    /* ─── PIN PAD ───────────────────────────────────────────────── */
+    const pinState = {
+      guide: { value: '', dotsId: 'guide-pin-dots', errId: 'guide-pin-error', callback: handleGuideLogin },
+      redemption: { value: '', dotsId: 'redemption-pin-dots', errId: 'redemption-pin-error', callback: handleRedemptionLogin },
+      admin: { value: '', dotsId: 'admin-pin-dots', errId: 'admin-pin-error', callback: handleAdminLogin },
+    };
+
+    function pinPress(ctx, digit) {
+      const ps = pinState[ctx];
+      if (ps.value.length >= 6) return;
+      ps.value += digit;
+      el(ps.errId).textContent = '';
+      renderPinDots(ctx);
+      if (ps.value.length === 6) {
+        const pin = ps.value; ps.value = '';
+        setTimeout(() => renderPinDots(ctx), 200);
+        ps.callback(pin);
+      }
+    }
+    function pinDel(ctx) {
+      const ps = pinState[ctx];
+      ps.value = ps.value.slice(0, -1);
+      renderPinDots(ctx);
+    }
+    function renderPinDots(ctx) {
+      const ps = pinState[ctx];
+      const container = el(ps.dotsId);
+      if (!container) return;
+      const len = ps.value.length;
+      container.innerHTML = Array.from({ length: 6 }, (_, i) =>
+        `<div class="pin-dot ${i < len ? 'filled' : ''}"></div>`
+      ).join('');
+    }
+    function pinError(ctx, msg) {
+      el(pinState[ctx].errId).textContent = msg;
+      const d = el(pinState[ctx].dotsId);
+      d.querySelectorAll('.pin-dot').forEach(dot => dot.classList.add('error'));
+      setTimeout(() => d.querySelectorAll('.pin-dot').forEach(dot => dot.classList.remove('error')), 600);
+    }
+
+    /* ─── AUTH — VISITOR ────────────────────────────────────────── */
+    async function handlePhoneSubmit(e) {
+      e.preventDefault();
+      const phone = el('phone-input').value.trim();
+      if (!phone) return;
+      showLoading(true);
+      try {
+        const { data, error } = await sb.from('participants').select('*').eq('phone', phone).maybeSingle();
+        if (error) throw error;
+        if (data) {
+          st.visitor = data;
+          localStorage.setItem('spp_phone', phone);
+          await loadVisitorData();
+          renderDashboard();
+          showScreen('dashboard');
+        } else {
+          el('reg-phone').value = phone;
+          showScreen('register');
+        }
+      } catch (err) {
+        el('phone-error').textContent = 'Connection error: ' + err.message;
+        el('phone-error').classList.add('show');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = el('reg-name').value.trim();
+      const phone = el('reg-phone').value.trim();
+      const email = el('reg-email').value.trim();
+      if (!name || !phone) return;
+      showLoading(true);
+      try {
+        const { data, error } = await sb.from('participants').insert({ name, phone, email: email || null }).select().single();
+        if (error) throw error;
+        st.visitor = data;
+        localStorage.setItem('spp_phone', phone);
+        await loadVisitorData();
+        renderDashboard();
+        showScreen('dashboard');
+        setTimeout(() => toast('Welcome to STEAMFest, ' + name + '! 🎉', 'ok', 4000), 400);
+      } catch (err) {
+        el('reg-error').textContent = err.message;
+        el('reg-error').classList.add('show');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function confirmLogout() {
+      if (confirm('Sign out? You can sign back in with your phone number.')) {
+        st.visitor = null;
+        localStorage.removeItem('spp_phone');
+        showScreen('home');
+      }
+    }
+
+    /* ─── AUTH — GUIDE ──────────────────────────────────────────── */
+    async function handleGuideLogin(pin) {
+      showLoading(true);
+      try {
+        const { data, error } = await sb.from('booths')
+          .select('*, week:week_id(id,week_number,title,start_date,end_date)')
+          .eq('pin', pin).eq('active', true).maybeSingle();
+        if (error) throw error;
+        if (!data) { pinError('guide', 'Invalid PIN or booth inactive'); showLoading(false); return; }
+        st.guide = { booth: data, week: data.week };
+        sessionStorage.setItem('spp_guide_booth_id', data.id);
+        showScreen('guide-scan');
+        setupGuideScanner();
+      } catch (err) {
+        pinError('guide', 'Error: ' + err.message);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function guideLogout() {
+      stopScanner();
+      st.guide = null;
+      sessionStorage.removeItem('spp_guide_booth_id');
+      showScreen('staff-login');
+    }
+
+    /* ─── AUTH — REDEMPTION DESK ────────────────────────────────── */
+    async function handleRedemptionLogin(pin) {
+      showLoading(true);
+      try {
+        const { data, error } = await sb.from('settings').select('value').eq('key', 'redemption_pin').single();
+        if (error) throw error;
+        if (!data || data.value !== pin) { pinError('redemption', 'Incorrect PIN'); showLoading(false); return; }
+        // Load weeks to find active week
+        const { data: wData } = await sb.from('weeks').select('*').order('week_number');
+        st.weeks = wData || [];
+        st.isRedemption = true;
+        sessionStorage.setItem('spp_is_redemption', '1');
+        const activeWeek = getActiveWeek();
+        st.rdActiveWeek = activeWeek;
+        showScreen('redemption-scan');
+        setupRedemptionScanner();
+      } catch (err) {
+        pinError('redemption', 'Error: ' + err.message);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function redemptionLogout() {
+      stopRedemptionScanner();
+      st.isRedemption = false;
+      st.rdParticipant = null;
+      st.rdChopRow = null;
+      sessionStorage.removeItem('spp_is_redemption');
+      showScreen('staff-login');
+    }
+
+    /* ─── AUTH — ADMIN ──────────────────────────────────────────── */
+    async function handleAdminLogin(pin) {
+      showLoading(true);
+      try {
+        const { data, error } = await sb.from('settings').select('value').eq('key', 'admin_pin').single();
+        if (error) throw error;
+        if (!data || data.value !== pin) { pinError('admin', 'Incorrect PIN'); showLoading(false); return; }
+        st.isAdmin = true;
+        sessionStorage.setItem('spp_is_admin', '1');
+        await loadAdminData();
+        showScreen('admin-dash');
+      } catch (err) {
+        pinError('admin', 'Error: ' + err.message);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function adminLogout() {
+      st.isAdmin = false;
+      sessionStorage.removeItem('spp_is_admin');
+      showScreen('staff-login');
+    }
+
+    /* ─── VISITOR DATA ──────────────────────────────────────────── */
+    async function loadVisitorData() {
+      const [wR, bR, cR, chopR] = await Promise.all([
+        sb.from('weeks').select('*').order('week_number'),
+        sb.from('booths').select('*'),
+        sb.from('checkins').select('id,booth_id,week_id,scanned_at').eq('participant_id', st.visitor.id),
+        sb.from('weekly_chops').select('id,week_id,earned_at,redeemed,redeemed_at').eq('participant_id', st.visitor.id),
+      ]);
+      if (wR.error) throw wR.error;
+      if (bR.error) throw bR.error;
+      if (cR.error) throw cR.error;
+      if (chopR.error) throw chopR.error;
+      st.weeks = wR.data || [];
+      st.booths = bR.data || [];
+      st.checkins = cR.data || [];
+      st.chops = chopR.data || [];
+    }
+
+    async function refreshDashboard() {
+      const btn = el('refresh-btn');
+      btn.classList.add('spin');
+      try {
+        await loadVisitorData();
+        renderDashboard();
+        toast('Passport refreshed ✓', 'ok');
+      } catch (err) {
+        toast('Refresh failed — check connection', 'err');
+      } finally {
+        btn.classList.remove('spin');
+      }
+    }
+
+    /* ─── VISITOR DASHBOARD RENDER ──────────────────────────────── */
+    function renderDashboard() {
+      if (!st.visitor) return;
+
+      // Avatar
+      el('visitor-avatar').textContent = st.visitor.name.charAt(0).toUpperCase();
+      el('visitor-name-display').textContent = st.visitor.name;
+
+      // Determine active week for header sub
+      const activeWeek = getActiveWeek();
+      el('visitor-week-hdr').textContent = activeWeek
+        ? `Week ${activeWeek.week_number} is live now!`
+        : 'STEAMFest 2026';
+
+      // Chop count
+      const totalChops = st.chops.length;
+      el('chop-count').textContent = totalChops;
+      el('chop-chip').textContent = `${totalChops} / 16 chops`;
+      el('chop-bar').style.width = `${(totalChops / 16) * 100}%`;
+      el('chop-sub').textContent =
+        totalChops === 0 ? 'Visit all booths each week to earn a chop!'
+          : totalChops < 8 ? `${totalChops} chop${totalChops !== 1 ? 's' : ''} earned — keep going!`
+            : totalChops < 16 ? `${totalChops} chops — more than halfway there!`
+              : 'All 16 chops earned — incredible! 🎉';
+
+      // This week card
+      if (activeWeek) {
+        const prog = getWeekProgress(activeWeek.id);
+        el('current-week-card').style.display = 'block';
+        el('cw-label').textContent = `Week ${activeWeek.week_number}: ${activeWeek.title}`;
+        el('cw-chip').textContent = `${prog.visited} / ${prog.total} booths`;
+        el('cw-bar').style.width = prog.total > 0 ? `${(prog.visited / prog.total) * 100}%` : '0%';
+        const need = Math.max(0, prog.total - prog.visited);
+        el('cw-sub').textContent = prog.earned
+          ? '✅ All booths done — chop earned this week!'
+          : need > 0 ? `Visit ${need} more booth${need !== 1 ? 's' : ''} to earn this week's chop.`
+            : 'No booths configured yet.';
+      } else {
+        el('current-week-card').style.display = 'none';
+      }
+
+      // QR
+      renderQR();
+
+      // Punch-card grid
+      renderPunchGrid();
+    }
+
+    /* ─── QR CODE ───────────────────────────────────────────────── */
+    function renderQR() {
+      const canvas = el('qr-canvas');
+      if (!canvas || !st.visitor) return;
+      try {
+        drawQRToCanvas(canvas, st.visitor.qr_token, 180, '#0B1C3D', '#ffffff');
+      } catch (e) { console.warn('QR error', e); }
+    }
+
+    function openQRModal() {
+      el('qr-modal').classList.add('open');
+      el('qr-modal-name').textContent = st.visitor?.name || '';
+      const canvas = el('qr-modal-canvas');
+      if (canvas && st.visitor) drawQRToCanvas(canvas, st.visitor.qr_token, 260, '#0B1C3D', '#ffffff');
+    }
+    function closeQRModal() { el('qr-modal').classList.remove('open'); }
+
+    /* ─── PUNCH-CARD GRID ───────────────────────────────────────── */
+    function renderPunchGrid() {
+      const grid = el('punch-grid');
+      if (!grid) return;
+      const today = new Date().toISOString().slice(0, 10);
+      const chopWeekIds = new Set(st.chops.map(c => c.week_id));
+
+      const cells = Array.from({ length: 16 }, (_, i) => {
+        const n = i + 1;
+        const week = st.weeks.find(w => w.week_number === n);
+        if (!week) return `<div class="punch-cell placeholder" title="Week ${n} not set up">
+          <span class="punch-week-num">W${n}</span>
+          <span class="punch-icon" style="opacity:.3">📒</span>
+          <span class="punch-micro">Not set up</span>
+        </div>`;
+
+        const status = getWeekStatus(week);
+        const earned = chopWeekIds.has(week.id);
+        const prog = getWeekProgress(week.id);
+        const isCurrent = status === 'current';
+        const isFuture = status === 'future';
+
+        let cls = 'punch-cell';
+        if (earned) cls += ' earned';
+        else if (isCurrent) cls += ' current';
+        else if (isFuture) cls += ' future';
+
+        const pip = isCurrent && !earned ? `<div class="live-pip"></div>` : '';
+        const ring = `<div class="chop-ring"></div>`;
+
+        let icon, micro;
+        if (earned) {
+          icon = `<span class="punch-chop-mark">✅</span>`;
+          micro = `Chop earned`;
+        } else if (isCurrent && prog.total > 0) {
+          icon = `<span class="punch-icon">📋</span>`;
+          micro = `${prog.visited}/${prog.total} booths`;
+        } else {
+          icon = `<span class="punch-icon" style="opacity:.35">📒</span>`;
+          micro = week.title || `Week ${n}`;
+        }
+
+        return `<div class="${cls}" data-week-id="${week.id}" onclick="openWeekModal('${week.id}')">
+          ${ring}${pip}
+          <span class="punch-week-num">W${n}</span>
+          ${icon}
+          <span class="punch-micro">${micro}</span>
+        </div>`;
+      });
+
+      grid.innerHTML = cells.join('');
+    }
+
+    /* ─── WEEK DETAIL MODAL ─────────────────────────────────────── */
+    function openWeekModal(weekId) {
+      const week = st.weeks.find(w => w.id === weekId);
+      if (!week) return;
+
+      const status = getWeekStatus(week);
+      const prog = getWeekProgress(weekId);
+      const chopWeekIds = new Set(st.chops.map(c => c.week_id));
+      const earned = chopWeekIds.has(weekId);
+
+      el('modal-week-title').textContent = `Week ${week.week_number} · ${week.title}`;
+
+      let body = `<div class="flex gap-2 items-center mb-3" style="color:var(--text-muted);font-size:.8rem">
+        <span>📅 ${formatDate(week.start_date)} – ${formatDate(week.end_date)}</span>
+      </div>`;
+
+      if (status === 'future') {
+        body += `<div class="text-center" style="padding:24px 0">
+          <div style="font-size:2.5rem;opacity:.3;margin-bottom:10px">📒</div>
+          <div class="muted">This week hasn't started yet.</div>
+          <div class="muted mt-1" style="font-size:.8rem">Starts ${formatDate(week.start_date)}</div>
+        </div>`;
+      } else {
+        if (earned) {
+          body += `<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 0;text-align:center">
+            <div style="font-size:3rem;filter:drop-shadow(0 0 12px rgba(244,162,38,.7));animation:chop-mark-glow 2s ease-in-out infinite">✅</div>
+            <div style="font-family:var(--font-head);font-weight:700;color:var(--amber);font-size:1.05rem">Chop Earned This Week! 🎉</div>
+            <div class="muted" style="font-size:.8rem">Visited ${prog.visited} of ${prog.total} booth${prog.total !== 1 ? 's' : ''}</div>
+          </div>`;
+        } else {
+          const pct = prog.total > 0 ? Math.round((prog.visited / prog.total) * 100) : 0;
+          const need = Math.max(0, prog.total - prog.visited);
+          body += `<div class="mb-3">
+            <div class="flex justify-between items-center" style="margin-bottom:6px">
+              <span class="label-dark">Booth Progress</span>
+              <span style="font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--amber)">${prog.visited}/${prog.total}</span>
+            </div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+          </div>`;
+          if (prog.total > 0) {
+            body += `<div class="booth-threshold-msg">${need > 0
+              ? `🎯 Visit <b>${need}</b> more booth${need !== 1 ? 's' : ''} to earn the chop — all ${prog.total} must be done!`
+              : '✅ All booths done! Chop earned.'
+              }</div>`;
+          }
+        }
+
+        // Booth dots
+        body += `<div class="mt-4 mb-2 label-dark">Booths This Week</div>`;
+        if (prog.allBooths.length === 0) {
+          body += `<div class="muted" style="font-size:.82rem">No booths configured yet.</div>`;
+        } else {
+          const visitedBoothIds = new Set(st.checkins.filter(c => c.week_id === weekId).map(c => c.booth_id));
+          const dots = prog.allBooths.map(booth => {
+            const done = visitedBoothIds.has(booth.id);
+            const inactive = !booth.active;
+            return `<div class="booth-dot-item ${done ? 'done' : ''}">
+              <div class="booth-dot">
+                ${done ? `<span class="booth-dot-check">✓</span>`
+                : inactive ? `<span style="font-size:.65rem;color:var(--text-muted)">—</span>` : ''}
+              </div>
+              <div class="booth-dot-label">${booth.name}${inactive ? ' <span style="opacity:.5">(off)</span>' : ''}</div>
+            </div>`;
+          }).join('');
+          body += `<div class="booth-dots-grid">${dots}</div>`;
+        }
+      }
+
+      el('modal-week-body').innerHTML = body;
+      el('week-modal').classList.add('open');
+    }
+    function closeWeekModal() { el('week-modal').classList.remove('open'); }
+    function handleModalBgClick(e) { if (e.target === el('week-modal')) closeWeekModal(); }
+
+    /* ─── CHOP STAMP ANIMATION ──────────────────────────────────── */
+    function animateChopStamp(weekId) {
+      const card = document.querySelector(`[data-week-id="${weekId}"]`);
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const sz = Math.max(rect.width, rect.height) * 1.1;
+      const stamp = document.createElement('div');
+      stamp.className = 'chop-stamp-anim';
+      stamp.textContent = '✅';
+      stamp.style.cssText = `left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;font-size:${sz * .4}px`;
+      document.body.appendChild(stamp);
+      requestAnimationFrame(() => stamp.classList.add('animate'));
+      stamp.addEventListener('animationend', () => { stamp.remove(); renderPunchGrid(); }, { once: true });
+    }
+
+    /* ─── CONFETTI ──────────────────────────────────────────────── */
+    function showConfetti() {
+      const box = el('confetti');
+      box.innerHTML = '';
+      const colors = ['#F4A226', '#F7BA5A', '#FBCD7A', '#ffffff', '#122548', '#22c55e'];
+      for (let i = 0; i < 100; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        const clr = colors[Math.floor(Math.random() * colors.length)];
+        const w = 4 + Math.random() * 7;
+        const h = 8 + Math.random() * 12;
+        const delay = Math.random() * 1.8;
+        const dur = 2.5 + Math.random() * 3;
+        p.style.cssText = `left:${Math.random() * 100}%;background:${clr};width:${w}px;height:${h}px;border-radius:${Math.random() > .5 ? '50%' : '2px'};transform:rotate(${Math.random() * 360}deg);animation:confetti-fall ${dur}s ${delay}s linear forwards`;
+        box.appendChild(p);
+      }
+      setTimeout(() => { box.innerHTML = ''; }, 5500);
+    }
+
+    /* ─── GUIDE SCANNER ─────────────────────────────────────────── */
+    function setupGuideScanner() {
+      if (!st.guide) return;
+      el('guide-booth-name').textContent = st.guide.booth.name;
+      el('guide-booth-week').textContent = st.guide.week
+        ? `Week ${st.guide.week.week_number} · ${st.guide.week.title}` : 'Week —';
+      el('scan-result').classList.remove('show');
+      startScanner();
+    }
+
+    function startScanner() {
+      const readerEl = el('qr-reader');
+      if (!readerEl) return;
+      readerEl.innerHTML = '';
+      try {
+        st.scanner = new Html5Qrcode('qr-reader');
+        st.scanner.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 220, height: 220 }, disableFlip: false },
+          async (decoded) => {
+            try { await st.scanner.pause(); } catch (e) { }
+            await handleGuideScan(decoded);
+          },
+          () => { }
+        ).catch(err => {
+          readerEl.innerHTML = `<div class="cam-error">📷<br><br>${err.message || 'Could not start camera.'}<br><br><small>Check camera permission.</small></div>`;
+        });
+      } catch (err) {
+        readerEl.innerHTML = `<div class="cam-error">📷<br><br>${err.message || 'Scanner unavailable.'}</div>`;
+      }
+    }
+
+    function stopScanner() {
+      if (st.scanner) {
+        st.scanner.stop().catch(() => { });
+        st.scanner = null;
+      }
+    }
+
+    async function handleGuideScan(qrToken) {
+      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRe.test(qrToken)) { showScanResult('invalid'); return; }
+
+      if (!st.guide?.booth || !st.guide?.week) {
+        showScanResult('no_week'); return;
+      }
+
+      const boothId = st.guide.booth.id;
+      const weekId = st.guide.week.id;
+
+      try {
+        // Look up participant by qr_token
+        const { data: p, error: pErr } = await sb.from('participants')
+          .select('id,name').eq('qr_token', qrToken).maybeSingle();
+        if (pErr) throw pErr;
+        if (!p) { showScanResult('not_found'); return; }
+
+        // Insert checkin — UNIQUE(participant_id, booth_id, week_id) prevents double
+        const { error: cErr } = await sb.from('checkins')
+          .insert({ participant_id: p.id, booth_id: boothId, week_id: weekId });
+
+        if (cErr) {
+          if (cErr.code === '23505') { showScanResult('dupe', p.name); return; }
+          throw cErr;
+        }
+
+        // Checkin succeeded — check if 100% done for this week
+        const { data: allBooths } = await sb.from('booths')
+          .select('id').eq('week_id', weekId).eq('active', true);
+        const { data: doneCIs } = await sb.from('checkins')
+          .select('booth_id').eq('participant_id', p.id).eq('week_id', weekId);
+
+        const allIds = new Set((allBooths || []).map(b => b.id));
+        const doneIds = new Set((doneCIs || []).map(c => c.booth_id));
+        const complete = allIds.size > 0 && [...allIds].every(id => doneIds.has(id));
+
+        if (complete) {
+          // Try to insert a chop row — unique constraint prevents duplicates
+          const { error: chopErr } = await sb.from('weekly_chops')
+            .insert({ participant_id: p.id, week_id: weekId });
+          if (chopErr && chopErr.code !== '23505') throw chopErr;
+          // Show chop result
+          showScanResult('chop', p.name, allIds.size);
+        } else {
+          showScanResult('ok', p.name);
+        }
+      } catch (err) {
+        console.error('Scan error:', err);
+        showScanResult('err');
+      }
+    }
+
+    function showScanResult(type, name = '', totalBooths = 0) {
+      const icons = { ok: '✅', chop: '🏅', dupe: '🔁', not_found: '❓', no_week: '⚠️', invalid: '⚠️', err: '❌' };
+      const titles = { ok: 'Checked In!', chop: '100% Done!', dupe: 'Already Done', not_found: 'Not Found', no_week: 'No Week Set', invalid: 'Invalid QR', err: 'Error' };
+      const subs = {
+        ok: name,
+        chop: `${name} — all ${totalBooths} booths complete! Chop earned.`,
+        dupe: `${name} already visited this booth`,
+        not_found: 'QR not registered in this system',
+        no_week: 'This booth is not assigned to an active week',
+        invalid: 'Not a STEAMFest Parent Passport QR',
+        err: 'Could not process — try again',
+      };
+      el('sr-icon').textContent = icons[type] || '❓';
+      el('sr-title').textContent = titles[type] || 'Unknown';
+      el('sr-sub').textContent = subs[type] || '';
+      const res = el('scan-result');
+      res.className = 'scan-result show ' + (type === 'ok' ? 'ok' : type === 'chop' ? 'chop' : type === 'dupe' ? 'dupe' : 'err');
+      const delay = (type === 'err' || type === 'invalid' || type === 'not_found' || type === 'no_week') ? 5000 : 3500;
+      setTimeout(() => resetScan(), delay);
+    }
+
+    function resetScan() {
+      el('scan-result').classList.remove('show');
+      try { if (st.scanner) st.scanner.resume().catch(() => startScanner()); } catch (e) { startScanner(); }
+    }
+
+    /* ─── REDEMPTION SCANNER ────────────────────────────────────── */
+    function setupRedemptionScanner() {
+      const activeWeek = st.rdActiveWeek;
+      el('redemption-week-display').textContent = activeWeek
+        ? `Week ${activeWeek.week_number}: ${activeWeek.title}`
+        : 'No active week';
+      el('redemption-result').classList.remove('show');
+      startRedemptionScanner();
+    }
+
+    function startRedemptionScanner() {
+      const readerEl = el('qr-reader-redemption');
+      if (!readerEl) return;
+      readerEl.innerHTML = '';
+      try {
+        st.redemptionScanner = new Html5Qrcode('qr-reader-redemption');
+        st.redemptionScanner.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 220, height: 220 }, disableFlip: false },
+          async (decoded) => {
+            try { await st.redemptionScanner.pause(); } catch (e) { }
+            await handleRedemptionScan(decoded);
+          },
+          () => { }
+        ).catch(err => {
+          readerEl.innerHTML = `<div class="cam-error">📷<br><br>${err.message || 'Could not start camera.'}<br><br><small>Check camera permission.</small></div>`;
+        });
+      } catch (err) {
+        readerEl.innerHTML = `<div class="cam-error">📷<br><br>${err.message || 'Scanner unavailable.'}</div>`;
+      }
+    }
+
+    function stopRedemptionScanner() {
+      if (st.redemptionScanner) {
+        st.redemptionScanner.stop().catch(() => { });
+        st.redemptionScanner = null;
+      }
+    }
+
+    async function handleRedemptionScan(qrToken) {
+      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRe.test(qrToken)) {
+        showRedemptionResult('invalid'); return;
+      }
+
+      if (!st.rdActiveWeek) {
+        showRedemptionResult('no_week'); return;
+      }
+
+      try {
+        // Find participant
+        const { data: p, error: pErr } = await sb.from('participants')
+          .select('id,name').eq('qr_token', qrToken).maybeSingle();
+        if (pErr) throw pErr;
+        if (!p) { showRedemptionResult('not_found'); return; }
+
+        // Find their chop for this week
+        const { data: chopRow, error: chopErr } = await sb.from('weekly_chops')
+          .select('*').eq('participant_id', p.id).eq('week_id', st.rdActiveWeek.id).maybeSingle();
+        if (chopErr) throw chopErr;
+
+        st.rdParticipant = p;
+        st.rdChopRow = chopRow || null;
+
+        if (!chopRow) {
+          // Not eligible — hasn't completed all booths
+          showRedemptionResult('not_eligible', p.name);
+        } else if (chopRow.redeemed) {
+          // Already redeemed
+          showRedemptionResult('redeemed', p.name, chopRow.redeemed_at);
+        } else {
+          // Eligible — show Mark Redeemed button
+          showRedemptionResult('eligible', p.name);
+        }
+      } catch (err) {
+        console.error('Redemption scan error:', err);
+        showRedemptionResult('err');
+      }
+    }
+
+    function showRedemptionResult(state, name = '', redeemedAt = null) {
+      el('rr-redeem-btn').style.display = 'none';
+
+      const iconMap = {
+        not_eligible: '🔒',
+        eligible: '🎁',
+        redeemed: '✅',
+        not_found: '❓',
+        no_week: '⚠️',
+        invalid: '⚠️',
+        err: '❌',
+      };
+      const statusMap = {
+        not_eligible: 'Not Yet Eligible',
+        eligible: 'Eligible — Not Redeemed',
+        redeemed: 'Already Redeemed',
+        not_found: 'Not Found',
+        no_week: 'No Active Week',
+        invalid: 'Invalid QR',
+        err: 'Error',
+      };
+      const classMap = {
+        not_eligible: 'not-eligible',
+        eligible: 'eligible',
+        redeemed: 'redeemed',
+        not_found: 'not-eligible',
+        no_week: 'not-eligible',
+        invalid: 'not-eligible',
+        err: 'not-eligible',
+      };
+      const detailMap = {
+        not_eligible: `${name} hasn't completed all booths for this week yet.`,
+        eligible: `${name} has completed all booths this week and is eligible for their weekly gift.`,
+        redeemed: `${name} already received their weekly gift on ${formatDateTime(redeemedAt)}.`,
+        not_found: 'QR not registered in this system.',
+        no_week: 'No active week found. Ask admin to set up the week calendar.',
+        invalid: 'Not a STEAMFest Parent Passport QR.',
+        err: 'Could not process — try again.',
+      };
+
+      el('rr-icon').textContent = iconMap[state] || '❓';
+      el('rr-name').textContent = name;
+      el('rr-status').textContent = statusMap[state] || state;
+      el('rr-status').className = 'redemption-status-label ' + (classMap[state] || '');
+      el('rr-detail').textContent = detailMap[state] || '';
+
+      if (state === 'eligible') {
+        el('rr-redeem-btn').style.display = 'inline-flex';
+      }
+
+      el('redemption-result').classList.add('show');
+    }
+
+    async function markRedeemed() {
+      if (!st.rdParticipant || !st.rdChopRow) return;
+      if (st.rdChopRow.redeemed) { toast('Already redeemed!', 'warn'); return; }
+
+      const btn = el('rr-redeem-btn');
+      btn.disabled = true;
+      btn.textContent = 'Processing…';
+
+      try {
+        // Update with check — only update if not already redeemed (double-safety)
+        const { data, error } = await sb.from('weekly_chops')
+          .update({ redeemed: true, redeemed_at: new Date().toISOString() })
+          .eq('id', st.rdChopRow.id)
+          .eq('redeemed', false)  // DB-level guard: only succeeds if currently false
+          .select()
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          // The row was already redeemed (race condition)
+          const { data: fresh } = await sb.from('weekly_chops')
+            .select('redeemed_at').eq('id', st.rdChopRow.id).single();
+          showRedemptionResult('redeemed', st.rdParticipant.name, fresh?.redeemed_at);
+          return;
+        }
+
+        st.rdChopRow = data;
+        showRedemptionResult('redeemed', st.rdParticipant.name, data.redeemed_at);
+        toast('Marked as redeemed ✓', 'ok');
+      } catch (err) {
+        console.error('Redeem error:', err);
+        btn.disabled = false;
+        btn.textContent = '✓ Mark Redeemed';
+        toast('Error: ' + err.message, 'err');
+      }
+    }
+
+    function resetRedemption() {
+      el('redemption-result').classList.remove('show');
+      st.rdParticipant = null;
+      st.rdChopRow = null;
+      try {
+        if (st.redemptionScanner) st.redemptionScanner.resume().catch(() => startRedemptionScanner());
+      } catch (e) { startRedemptionScanner(); }
+    }
+
+    /* ─── ADMIN DATA ────────────────────────────────────────────── */
+    async function loadAdminData() {
+      showLoading(true);
+      try {
+        const [wR, bR, pR, cR, chopR] = await Promise.all([
+          sb.from('weeks').select('*').order('week_number'),
+          sb.from('booths').select('*').order('created_at', { ascending: false }),
+          sb.from('participants').select('*').order('created_at', { ascending: false }),
+          sb.from('checkins').select('id,participant_id,booth_id,week_id'),
+          sb.from('weekly_chops').select('id,participant_id,week_id,redeemed,earned_at'),
+        ]);
+        st.weeks = wR.data || [];
+        st.booths = bR.data || [];
+        st.allParticipants = pR.data || [];
+        st.allCheckins = cR.data || [];
+        st.allChops = chopR.data || [];
+        renderAdminStats();
+        renderAdminWeeks();
+        renderAdminBooths();
+        renderAdminVisitors();
+        renderLuckyDrawTable();
+      } catch (err) {
+        toast('Load error: ' + err.message, 'err');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function renderAdminStats() {
+      el('st-participants').textContent = st.allParticipants.length;
+      el('st-chops').textContent = st.allChops.length;
+      el('st-weeks').textContent = st.weeks.length;
+      el('st-booths').textContent = st.booths.filter(b => b.active).length;
+    }
+
+    function switchAdminTab(tab, btn) {
+      ['weeks', 'booths', 'visitors', 'luckydraw', 'settings'].forEach(t => {
+        const panel = el('tab-' + t);
+        if (panel) panel.style.display = t === tab ? 'block' : 'none';
+      });
+      document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      st.adminTab = tab;
+    }
+
+    /* ─── ADMIN: WEEKS ──────────────────────────────────────────── */
+    function renderAdminWeeks() {
+      const tbody = el('weeks-tbody');
+      if (!tbody) return;
+      if (st.weeks.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📅</div>No weeks yet. Add the first one!</div></td></tr>`;
+        return;
+      }
+      const today = new Date().toISOString().slice(0, 10);
+      tbody.innerHTML = st.weeks.map(w => {
+        const boothCnt = st.booths.filter(b => b.week_id === w.id).length;
+        const status = getWeekStatus(w);
+        const badge = status === 'current' ? `<span class="chip" style="font-size:.6rem">LIVE</span>` : '';
+        return `<tr>
+          <td><b>W${w.week_number}</b></td>
+          <td>${w.title} ${badge}</td>
+          <td style="font-size:.75rem;white-space:nowrap">${formatDate(w.start_date)}<br><span style="color:var(--text-muted)">→ ${formatDate(w.end_date)}</span></td>
+          <td>${boothCnt}</td>
+          <td class="actions-cell">
+            <button class="btn btn-outline btn-sm" onclick="openWeekForm('${w.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteWeek('${w.id}')">Del</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function openWeekForm(weekId) {
+      const existing = weekId ? st.weeks.find(w => w.id === weekId) : null;
+      st.drawerMode = 'week'; st.drawerData = existing || null;
+      const usedNums = new Set(st.weeks.filter(w => !existing || w.id !== weekId).map(w => w.week_number));
+      const opts = Array.from({ length: 16 }, (_, i) => i + 1).map(n =>
+        `<option value="${n}" ${usedNums.has(n) ? 'disabled' : ''} ${existing?.week_number === n ? 'selected' : ''}>${n} — Week ${n}</option>`).join('');
+
+      el('drawer-title').textContent = existing ? `Edit Week ${existing.week_number}` : 'Add Week';
+      el('drawer-body').innerHTML = `<form id="week-form">
+        <div class="form-group">
+          <label>Week Number *</label>
+          <select class="form-control" id="wf-num" required ${existing ? 'disabled' : ''}>${opts}</select>
+        </div>
+        <div class="form-group">
+          <label>Title *</label>
+          <input class="form-control" id="wf-title" value="${existing?.title || ''}" placeholder="e.g. Week 1 — Sponsor Day" required/>
+        </div>
+        <div class="form-group">
+          <label>Start Date *</label>
+          <input class="form-control" type="date" id="wf-start" value="${existing?.start_date || ''}" required/>
+        </div>
+        <div class="form-group">
+          <label>End Date *</label>
+          <input class="form-control" type="date" id="wf-end" value="${existing?.end_date || ''}" required/>
+        </div>
+        <div class="form-error" id="wf-error"></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
+          <button type="submit" class="btn btn-primary">${existing ? 'Save Changes' : 'Add Week'}</button>
+        </div>
+      </form>`;
+      el('week-form').addEventListener('submit', saveWeekHandler);
+      openDrawer();
+    }
+
+    async function saveWeekHandler(e) {
+      e.preventDefault();
+      const num = parseInt(el('wf-num').value);
+      const title = el('wf-title').value.trim();
+      const start = el('wf-start').value;
+      const end = el('wf-end').value;
+      if (!title || !start || !end) { showFormError('wf-error', 'All fields required.'); return; }
+      if (start > end) { showFormError('wf-error', 'Start date must be before end date.'); return; }
+      showLoading(true);
+      try {
+        const payload = { week_number: num || st.drawerData?.week_number, title, start_date: start, end_date: end };
+        if (st.drawerData) {
+          const { error } = await sb.from('weeks').update(payload).eq('id', st.drawerData.id);
+          if (error) throw error;
+        } else {
+          const { error } = await sb.from('weeks').insert(payload);
+          if (error) throw error;
+        }
+        toast(st.drawerData ? 'Week updated!' : 'Week added!', 'ok');
+        closeDrawer();
+        await loadAdminData();
+      } catch (err) { showFormError('wf-error', err.message); }
+      finally { showLoading(false); }
+    }
+
+    async function deleteWeek(weekId) {
+      const w = st.weeks.find(x => x.id === weekId);
+      if (!w || !confirm(`Delete Week ${w.week_number}: ${w.title}?\nThis also deletes all booths for this week.`)) return;
+      showLoading(true);
+      try {
+        const { error } = await sb.from('weeks').delete().eq('id', weekId);
+        if (error) throw error;
+        toast('Week deleted', 'warn');
+        await loadAdminData();
+      } catch (err) { toast('Error: ' + err.message, 'err'); }
+      finally { showLoading(false); }
+    }
+
+    /* ─── ADMIN: BOOTHS ─────────────────────────────────────────── */
+    function renderAdminBooths() {
+      const tbody = el('booths-tbody');
+      if (!tbody) return;
+      if (st.booths.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">📍</div>No booths yet. Add weeks first, then add booths.</div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = st.booths.map(b => {
+        const week = st.weeks.find(w => w.id === b.week_id);
+        return `<tr>
+          <td>${b.name}</td>
+          <td>${week ? `W${week.week_number}` : '—'}</td>
+          <td><span class="pin-code">${b.pin}</span></td>
+          <td><span class="status-dot ${b.active ? 'active' : 'inactive'}"></span>${b.active ? 'Active' : 'Off'}</td>
+          <td class="actions-cell">
+            <button class="btn btn-outline btn-sm" onclick="openBoothForm('${b.id}')">Edit</button>
+            <button class="btn btn-outline btn-sm" onclick="regenPIN('${b.id}')" title="New PIN">🔄</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteBooth('${b.id}')">Del</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function openBoothForm(boothId) {
+      const existing = boothId ? st.booths.find(b => b.id === boothId) : null;
+      st.drawerMode = 'booth'; st.drawerData = existing || null;
+      st.generatedPIN = existing?.pin || generatePIN();
+      const weekOpts = st.weeks.map(w =>
+        `<option value="${w.id}" ${existing?.week_id === w.id ? 'selected' : ''}>W${w.week_number}: ${w.title}</option>`).join('');
+
+      el('drawer-title').textContent = existing ? 'Edit Booth' : 'Add Booth';
+      el('drawer-body').innerHTML = `<form id="booth-form">
+        <div class="form-group">
+          <label>Booth Name *</label>
+          <input class="form-control" id="bf-name" value="${existing?.name || ''}" placeholder="e.g. Electronics Sponsor" required/>
+        </div>
+        <div class="form-group">
+          <label>Assigned Week *</label>
+          <select class="form-control" id="bf-week" required>
+            <option value="" disabled ${!existing ? 'selected' : ''}>Select week…</option>
+            ${weekOpts}
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="toggle-row">
+            <label>Active</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="bf-active" ${existing === null || existing?.active ? 'checked' : ''}>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="form-hint">Inactive booths don't count toward chop eligibility</div>
+        </div>
+        <div class="form-group">
+          <label>Guide PIN</label>
+          <div class="pin-gen-wrap">
+            <div class="pin-gen-code" id="bf-pin-display">${st.generatedPIN}</div>
+            <button type="button" class="btn btn-outline btn-sm" onclick="refreshBoothFormPIN()">🔄 New</button>
+          </div>
+          <div class="pin-gen-note">Share this PIN with the booth guide. It's their login code.</div>
+        </div>
+        <div class="form-error" id="bf-error"></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeDrawer()">Cancel</button>
+          <button type="submit" class="btn btn-primary">${existing ? 'Save Changes' : 'Add Booth'}</button>
+        </div>
+      </form>`;
+      el('booth-form').addEventListener('submit', saveBoothHandler);
+      openDrawer();
+    }
+
+    function refreshBoothFormPIN() {
+      st.generatedPIN = generatePIN();
+      el('bf-pin-display').textContent = st.generatedPIN;
+    }
+
+    async function saveBoothHandler(e) {
+      e.preventDefault();
+      const name = el('bf-name').value.trim();
+      const weekId = el('bf-week').value;
+      const active = el('bf-active').checked;
+      if (!name || !weekId) { showFormError('bf-error', 'Name and week required.'); return; }
+      showLoading(true);
+      try {
+        const payload = { name, week_id: weekId, active, pin: st.generatedPIN };
+        if (st.drawerData) {
+          const { error } = await sb.from('booths').update(payload).eq('id', st.drawerData.id);
+          if (error) throw error;
+        } else {
+          const { error } = await sb.from('booths').insert(payload);
+          if (error) throw error;
+        }
+        toast(st.drawerData ? 'Booth updated!' : 'Booth added!', 'ok');
+        closeDrawer();
+        await loadAdminData();
+      } catch (err) { showFormError('bf-error', err.message); }
+      finally { showLoading(false); }
+    }
+
+    async function regenPIN(boothId) {
+      const newPIN = generatePIN();
+      if (!confirm(`Generate new PIN ${newPIN} for this booth?\nThe old PIN stops working immediately.`)) return;
+      showLoading(true);
+      try {
+        const { error } = await sb.from('booths').update({ pin: newPIN }).eq('id', boothId);
+        if (error) throw error;
+        toast(`New PIN: ${newPIN} — share with guide`, 'ok', 5000);
+        navigator.clipboard.writeText(newPIN).catch(() => { });
+        await loadAdminData();
+      } catch (err) { toast('Error: ' + err.message, 'err'); }
+      finally { showLoading(false); }
+    }
+
+    async function deleteBooth(boothId) {
+      const b = st.booths.find(x => x.id === boothId);
+      if (!b || !confirm(`Delete booth "${b.name}"?\nExisting check-ins remain in records.`)) return;
+      showLoading(true);
+      try {
+        const { error } = await sb.from('booths').delete().eq('id', boothId);
+        if (error) throw error;
+        toast('Booth deleted', 'warn');
+        await loadAdminData();
+      } catch (err) { toast('Error: ' + err.message, 'err'); }
+      finally { showLoading(false); }
+    }
+
+    /* ─── ADMIN: VISITORS ───────────────────────────────────────── */
+    function renderAdminVisitors(filter = '') {
+      const tbody = el('visitors-tbody');
+      if (!tbody) return;
+      const list = filter
+        ? st.allParticipants.filter(p =>
+          p.name.toLowerCase().includes(filter.toLowerCase()) || p.phone.includes(filter))
+        : st.allParticipants;
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon">👤</div>${filter ? 'No matches found.' : 'No registrations yet.'}</div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = list.map(p => {
+        const chops = st.allChops.filter(c => c.participant_id === p.id).length;
+        const checkins = st.allCheckins.filter(c => c.participant_id === p.id).length;
+        return `<tr>
+          <td><b>${p.name}</b></td>
+          <td style="font-size:.8rem;color:var(--text-muted)">${p.phone}</td>
+          <td><span class="chip">${chops}/16</span></td>
+          <td>${checkins}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function filterVisitors(val) { renderAdminVisitors(val); }
+
+    /* ─── LUCKY DRAW ────────────────────────────────────────────── */
+    async function renderLuckyDrawTable() {
+      const tbody = el('luckydraw-tbody');
+      if (!tbody) return;
+      // Live calculation: group allChops by participant, floor(count/3) = entries
+      const chopMap = {};
+      (st.allChops || []).forEach(c => {
+        if (!chopMap[c.participant_id]) chopMap[c.participant_id] = 0;
+        chopMap[c.participant_id]++;
+      });
+      const entries = Object.entries(chopMap)
+        .map(([pid, cnt]) => ({ pid, cnt, entries: Math.floor(cnt / 3) }))
+        .filter(e => e.entries >= 1)
+        .sort((a, b) => b.entries - a.entries);
+
+      if (entries.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="empty-state-icon">🎰</div>No participants with 3+ chops yet.</div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = entries.map(e => {
+        const p = st.allParticipants.find(x => x.id === e.pid);
+        return `<tr>
+          <td><b>${p?.name || '—'}</b></td>
+          <td style="font-size:.8rem;color:var(--text-muted)">${p?.phone || '—'}</td>
+          <td><span class="chip">${e.cnt}</span></td>
+          <td><span class="chip chip-success">${e.entries}</span></td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function exportLuckyDraw() {
+      // Always computed live — never from a stored field
+      showLoading(true);
+      try {
+        // Fetch fresh data for accuracy
+        const { data: chops, error: cErr } = await sb.from('weekly_chops')
+          .select('participant_id');
+        if (cErr) throw cErr;
+        const { data: participants, error: pErr } = await sb.from('participants')
+          .select('id,name,phone');
+        if (pErr) throw pErr;
+
+        const chopMap = {};
+        chops.forEach(c => {
+          chopMap[c.participant_id] = (chopMap[c.participant_id] || 0) + 1;
+        });
+
+        const lines = [];
+        lines.push('STEAMFest Passport 2026 (Parent) — Lucky Draw Pool');
+        lines.push('Generated: ' + new Date().toLocaleString('en-MY'));
+        lines.push('Formula: every 3 chops = 1 entry');
+        lines.push('');
+        lines.push('='.repeat(50));
+
+        let totalEntries = 0;
+        const participantEntries = Object.entries(chopMap)
+          .map(([pid, cnt]) => ({ pid, cnt, entries: Math.floor(cnt / 3) }))
+          .filter(e => e.entries >= 1)
+          .sort((a, b) => b.entries - a.entries);
+
+        participantEntries.forEach(({ pid, cnt, entries }) => {
+          const p = participants.find(x => x.id === pid);
+          if (!p) return;
+          lines.push(`\n--- ${p.name} | ${p.phone} | ${cnt} chops | ${entries} entr${entries !== 1 ? 'ies' : 'y'} ---`);
+          for (let i = 0; i < entries; i++) {
+            totalEntries++;
+            lines.push(`${totalEntries}. ${p.name} | ${p.phone}`);
+          }
+        });
+
+        lines.push('');
+        lines.push('='.repeat(50));
+        lines.push(`Total pool entries: ${totalEntries}`);
+        lines.push(`Participants with entries: ${participantEntries.length}`);
+
+        const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `steamfest-parents-luckydraw-${new Date().toISOString().slice(0, 10)}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        toast(`Exported ${totalEntries} pool entr${totalEntries !== 1 ? 'ies' : 'y'} ✓`, 'ok', 4000);
+      } catch (err) {
+        toast('Export error: ' + err.message, 'err');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    /* ─── ADMIN: SETTINGS ───────────────────────────────────────── */
+    async function handleChangeAdminPIN(e) {
+      e.preventDefault();
+      const curr = el('cap-current').value;
+      const nw = el('cap-new').value;
+      const conf = el('cap-confirm').value;
+      const errEl = el('cap-error');
+      errEl.classList.remove('show');
+      if (nw !== conf) { showFormError('cap-error', 'New PINs do not match.'); return; }
+      if (!/^\d{6}$/.test(nw)) { showFormError('cap-error', 'PIN must be exactly 6 digits.'); return; }
+      showLoading(true);
+      try {
+        const { data, error: sErr } = await sb.from('settings').select('value').eq('key', 'admin_pin').single();
+        if (sErr) throw sErr;
+        if (!data || data.value !== curr) { showFormError('cap-error', 'Incorrect current PIN.'); showLoading(false); return; }
+        const { error: uErr } = await sb.from('settings').update({ value: nw }).eq('key', 'admin_pin');
+        if (uErr) throw uErr;
+        toast('Admin PIN updated!', 'ok');
+        e.target.reset();
+      } catch (ex) { showFormError('cap-error', ex.message); }
+      finally { showLoading(false); }
+    }
+
+    async function handleChangeRedemptionPIN(e) {
+      e.preventDefault();
+      const curr = el('crp-current').value;
+      const nw = el('crp-new').value;
+      const conf = el('crp-confirm').value;
+      el('crp-error').classList.remove('show');
+      if (nw !== conf) { showFormError('crp-error', 'New PINs do not match.'); return; }
+      if (!/^\d{6}$/.test(nw)) { showFormError('crp-error', 'PIN must be exactly 6 digits.'); return; }
+      showLoading(true);
+      try {
+        const { data, error: sErr } = await sb.from('settings').select('value').eq('key', 'redemption_pin').single();
+        if (sErr) throw sErr;
+        if (!data || data.value !== curr) { showFormError('crp-error', 'Incorrect current PIN.'); showLoading(false); return; }
+        const { error: uErr } = await sb.from('settings').update({ value: nw }).eq('key', 'redemption_pin');
+        if (uErr) throw uErr;
+        toast('Redemption PIN updated!', 'ok');
+        e.target.reset();
+      } catch (ex) { showFormError('crp-error', ex.message); }
+      finally { showLoading(false); }
+    }
+
+    /* ─── DRAWER ────────────────────────────────────────────────── */
+    function openDrawer() { el('drawer').classList.add('open'); }
+    function closeDrawer() { el('drawer').classList.remove('open'); st.drawerMode = null; st.drawerData = null; }
+    function handleDrawerBgClick(e) { if (e.target === el('drawer')) closeDrawer(); }
+
+    function showFormError(id, msg) {
+      const errEl = el(id);
+      if (!errEl) return;
+      errEl.textContent = msg;
+      errEl.classList.add('show');
+    }
+
+    /* ─── APP INIT ──────────────────────────────────────────────── */
+    async function initApp() {
+      if (!initSupabase()) {
+        showScreen('home');
+        setTimeout(() => {
+          const notice = document.createElement('div');
+          notice.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#F4A226;color:#0B1C3D;font-size:.78rem;font-weight:700;padding:8px 16px;text-align:center;z-index:99999;font-family:Outfit,sans-serif';
+          notice.textContent = '⚠️  Configure SUPABASE_URL & SUPABASE_ANON_KEY in index.html to enable data features.';
+          document.body.prepend(notice);
+        }, 800);
+        return;
+      }
+
+      try {
+        // Guide session restore
+        const gId = sessionStorage.getItem('spp_guide_booth_id');
+        if (gId) {
+          const { data } = await sb.from('booths').select('*,week:week_id(id,week_number,title,start_date,end_date)').eq('id', gId).maybeSingle();
+          if (data) {
+            st.guide = { booth: data, week: data.week };
+            showScreen('guide-scan', false);
+            setupGuideScanner();
+            return;
+          } else { sessionStorage.removeItem('spp_guide_booth_id'); }
+        }
+
+        // Redemption session restore
+        if (sessionStorage.getItem('spp_is_redemption') === '1') {
+          const { data: wData } = await sb.from('weeks').select('*').order('week_number');
+          st.weeks = wData || [];
+          st.isRedemption = true;
+          st.rdActiveWeek = getActiveWeek();
+          showScreen('redemption-scan', false);
+          setupRedemptionScanner();
+          return;
+        }
+
+        // Admin session restore
+        if (sessionStorage.getItem('spp_is_admin') === '1') {
+          st.isAdmin = true;
+          await loadAdminData();
+          showScreen('admin-dash', false);
+          return;
+        }
+
+        // Visitor session restore
+        const phone = localStorage.getItem('spp_phone');
+        if (phone) {
+          const { data } = await sb.from('participants').select('*').eq('phone', phone).maybeSingle();
+          if (data) {
+            st.visitor = data;
+            await loadVisitorData();
+            renderDashboard();
+            showScreen('dashboard', false);
+            return;
+          } else { localStorage.removeItem('spp_phone'); }
+        }
+      } catch (e) { console.warn('Session restore error:', e); }
+
+      showScreen('home', false);
+    }
+
+    /* ─── EVENT LISTENERS ───────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      el('phone-form')?.addEventListener('submit', handlePhoneSubmit);
+      el('register-form')?.addEventListener('submit', handleRegisterSubmit);
+      el('change-admin-pin-form')?.addEventListener('submit', handleChangeAdminPIN);
+      el('change-redemption-pin-form')?.addEventListener('submit', handleChangeRedemptionPIN);
+
+      el('phone-input')?.addEventListener('input', () => {
+        el('phone-error').classList.remove('show');
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closeWeekModal(); closeQRModal(); closeDrawer(); }
+      });
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(() => console.log('SW registered'))
+          .catch(e => console.warn('SW error:', e));
+      }
+
+      initApp();
+    });
+  </script>
+</body>
+
+</html>
