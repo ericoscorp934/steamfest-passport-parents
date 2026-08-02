@@ -76,15 +76,19 @@
     html {
       height: 100%;
       scroll-behavior: smooth;
+      overscroll-behavior: none;
     }
 
     body {
-      min-height: 100%;
+      height: 100%;
+      position: fixed;
+      width: 100%;
       font-family: var(--font-body);
       background: var(--slate);
       color: var(--text-dark);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      overflow: hidden;
+      overscroll-behavior: none;
     }
 
     a {
@@ -117,6 +121,8 @@
       inset: 0;
       overflow-y: auto;
       overflow-x: hidden;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
       display: none;
       animation: fadeIn .25s ease;
       background: var(--slate);
@@ -2366,6 +2372,26 @@
               <input class="form-control" type="email" id="reg-email" placeholder="you@example.com"
                 autocomplete="email" />
             </div>
+            <div class="form-group">
+              <label>Living Area *</label>
+              <input class="form-control" type="text" id="reg-area"
+                placeholder="e.g. Subang Jaya / Petaling Jaya / Puchong" required />
+            </div>
+            <div class="form-group">
+              <label>Number of Children *</label>
+              <select class="form-control" id="reg-num-children" required onchange="renderChildrenFields()">
+                <option value="">Select...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+            <div id="reg-children-fields"></div>
             <div class="form-error" id="reg-error"></div>
             <button type="submit" class="btn btn-primary btn-block mt-3">Create My Passport 🎉</button>
           </form>
@@ -3124,16 +3150,57 @@
         showLoading(false);
       }
     }
-
+    function renderChildrenFields() {
+      const n = parseInt(el('reg-num-children').value, 10) || 0;
+      const container = el('reg-children-fields');
+      let html = '';
+      for (let i = 1; i <= n; i++) {
+        html += `
+          <div class="child-row" style="border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px">
+            <div style="font-size:.8rem;font-weight:700;color:var(--text-muted);margin-bottom:8px">Child ${i}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div class="form-group" style="margin-bottom:0">
+                <label style="font-size:.72rem">Age *</label>
+                <input class="form-control" type="number" min="0" max="18" id="reg-child-age-${i}" placeholder="e.g. 5" required />
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label style="font-size:.72rem">School Name *</label>
+              <input class="form-control" type="text" id="reg-child-school-${i}" placeholder="School name" required />
+            </div>
+          </div>`;
+      }
+      container.innerHTML = html;
+    }
     async function handleRegisterSubmit(e) {
       e.preventDefault();
       const name = el('reg-name').value.trim();
       const phone = el('reg-phone').value.trim();
       const email = el('reg-email').value.trim();
-      if (!name || !phone) return;
+      const livingArea = el('reg-area').value.trim();
+      const numChildren = parseInt(el('reg-num-children').value, 10) || 0;
+      if (!name || !phone || !livingArea || !numChildren) return;
+
+      const children = [];
+      for (let i = 1; i <= numChildren; i++) {
+        const ageVal = el('reg-child-age-' + i).value.trim();
+        const school = el('reg-child-school-' + i).value.trim();
+        if (!ageVal || !school) {
+          el('reg-error').textContent = 'Please fill in age and school for every child.';
+          el('reg-error').classList.add('show');
+          return;
+        }
+        children.push({ child: i, age: parseInt(ageVal, 10), school });
+      }
+
       showLoading(true);
       try {
-        const { data, error } = await sb.from('participants').insert({ name, phone, email: email || null }).select().single();
+        const { data, error } = await sb.from('participants').insert({
+          name, phone, email: email || null,
+          living_area: livingArea,
+          num_children: numChildren,
+          children
+        }).select().single();
         if (error) throw error;
         st.visitor = data;
         localStorage.setItem('spp_phone', phone);
